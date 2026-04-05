@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #0B0F19;
+    color: #E5E7EB;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Grain noise overlay no body inteiro */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.038;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 160px 160px;
+  }
+
+  /* Todos os filhos ficam acima do grain */
+  body > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  ::selection {
+    background-color: rgba(59, 130, 246, 0.3);
+    color: #E5E7EB;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0B0F19;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #1D4ED8;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3B82F6;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #93C5FD 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .border-glow {
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.1);
+  }
+
+  /* ── Glassmorphism card ── */
+  .glass-card {
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Inner grain no card */
+  .glass-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 120px 120px;
+    border-radius: inherit;
+    z-index: 0;
+  }
+
+  .glass-card > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Hover do card com glow colorido */
+  .glass-card-hover {
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease,
+                border-color 0.35s ease;
+  }
+
+  .glass-card-hover:hover {
+    transform: translateY(-6px) scale(1.015);
+    box-shadow:
+      0 0 0 1px rgba(96, 165, 250, 0.25),
+      0 8px 32px rgba(59, 130, 246, 0.18),
+      0 24px 48px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-color: rgba(96, 165, 250, 0.3);
+  }
+
+  /* Borda colorida animada no topo do card */
+  .glass-card-hover .card-top-line {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(96, 165, 250, 0.6) 30%,
+      rgba(139, 92, 246, 0.5) 60%,
+      transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+
+  .glass-card-hover:hover .card-top-line {
+    opacity: 1;
+  }
+
+  /* ── Card hover antigo (mantido para compatibilidade) ── */
+  .card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 0 32px rgba(59, 130, 246, 0.2), 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(59, 130, 246, 0.4);
+  }
+
+  .glow-dot {
+    width: 6px;
+    height: 6px;
+    background: #3B82F6;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #3B82F6, 0 0 16px rgba(59, 130, 246, 0.5);
+    animation: glowPulse 2.5s ease-in-out infinite;
+  }
+
+  /* ── Stack icon badge ── */
+  .stack-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .stack-icon:hover {
+    background: rgba(59, 130, 246, 0.12);
+    border-color: rgba(96, 165, 250, 0.3);
+    transform: translateY(-2px);
+  }
+
+  /* ── "Visit Project" link style ── */
+  .visit-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(229, 231, 235, 0.7);
+    transition: color 0.2s ease;
+    text-decoration: none;
+  }
+
+  .visit-link:hover {
+    color: #60A5FA;
+  }
+}
