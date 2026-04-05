@@ -184,7 +184,7 @@ export default function Hero() {
             data-aos-delay="440"
           >
             {[
-              { value: "3+", label: "Projetos entregues" },
+              { value: "10+", label: "Projetos entregues" },
               { value: "100%", label: "Full Stack" },
               { value: "PO", label: "Visão de produto" },
             ].map((stat) => (
