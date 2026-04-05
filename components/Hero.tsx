@@ -116,7 +116,7 @@ export default function Hero() {
           >
             Desenvolvo sistemas.
             <br />
-            <span className="text-gradient">Da interface ao backend .</span>
+            <span className="text-gradient">Da interface ao backend.</span>
           </h1>
 
           {/* Subheadline */}
