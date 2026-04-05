@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Dev Portfolio | Full Stack Developer",
+  title: "Emanuel fortes | Full Stack Developer",
   description:
     "Desenvolvedor Full Stack especializado em construir sistemas completos — do backend à interface. Visão de produto, código limpo e foco em resultado.",
   keywords: [
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     "portfolio",
   ],
   openGraph: {
-    title: "Dev Portfolio | Full Stack Developer",
+    title: "Emanuel fortes | Full Stack Developer",
     description:
       "Construo sistemas completos com visão de produto e foco em resultado.",
     type: "website",
