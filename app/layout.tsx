@@ -30,7 +30,7 @@ export const metadata: Metadata = {
       {
         url: "/og-image.jpg",
         width: 1200,
-        height: 675,
+        height: 712,
         type: "image/jpeg",
         alt: "Fortes Dev. Desenvolvo sistemas, da interface ao backend.",
       },

@@ -1,9 +1,18 @@
 /** Configuração central da marca e dos canais de contato. */
 
-/** Domínio de produção. Sobrescreva com NEXT_PUBLIC_SITE_URL se mudar. */
-export const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://fortesdev.com.br");
+/**
+ * Domínio público do site.
+ *
+ * WhatsApp, Facebook e X exigem URL absoluta em og:image, e essa URL precisa
+ * ser pública. NÃO usar VERCEL_URL aqui: aquela URL é específica de cada deploy
+ * e fica protegida por autenticação, então o robô do WhatsApp recebe um 302 de
+ * login em vez da imagem e a prévia não aparece.
+ *
+ * Sobrescreva com NEXT_PUBLIC_SITE_URL se o domínio mudar.
+ */
+export const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://fortesdev.com"
+).replace(/\/$/, "");
 
 /** Telefone no formato internacional, só dígitos (55 + DDD + número). */
 export const whatsappNumber = "5585992004530";
