@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { whatsappLink, whatsappDisplay } from "@/data/site";
+import WhatsAppIcon from "./WhatsAppIcon";
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText("seuemail@email.com");
+    navigator.clipboard.writeText(whatsappDisplay);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -55,16 +57,16 @@ export default function Contact() {
             quanto de negócio, vamos conversar. Respondo em até 24 horas.
           </p>
 
-          {/* Email copy */}
+          {/* Telefone / WhatsApp */}
           <div className="flex items-center justify-center gap-3 mb-8">
             <div className="flex items-center gap-3 px-5 py-3 rounded-xl bg-surface border border-white/8">
               <span className="text-text-muted text-sm font-light">
-                seuemail@email.com
+                {whatsappDisplay}
               </span>
               <button
                 onClick={handleCopy}
                 className="text-brand-light hover:text-white transition-colors duration-200"
-                aria-label="Copiar email"
+                aria-label="Copiar telefone"
               >
                 {copied ? (
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -94,13 +96,13 @@ export default function Contact() {
               </a>
             ))}
             <a
-              href="mailto:seuemail@email.com"
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-primary text-white text-sm font-semibold hover:bg-brand-glow transition-all duration-200 shadow-brand-sm hover:shadow-brand-md"
             >
-              Enviar mensagem
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
+              <WhatsAppIcon />
+              Chamar no WhatsApp
             </a>
           </div>
         </div>

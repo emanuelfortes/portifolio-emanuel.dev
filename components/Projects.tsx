@@ -21,7 +21,7 @@ export default function Projects() {
               </h2>
               <p className="text-text-muted font-light text-[15px] max-w-xl leading-relaxed">
                 Cada projeto aqui foi construído com um problema real em mente.
-                Não apenas demonstrações técnicas — sistemas pensados para
+                Não apenas demonstrações técnicas. São sistemas pensados para
                 funcionar, escalar e gerar resultado.
               </p>
             </div>

@@ -50,7 +50,7 @@ export default function About() {
               // sobre
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold text-text-primary leading-tight tracking-tight mb-6">
-              Não apenas código —{" "}
+              Não apenas código:{" "}
               <span className="text-gradient">soluções completas.</span>
             </h2>
             <div className="space-y-4 text-text-muted font-light leading-relaxed text-[15px]">
@@ -67,7 +67,7 @@ export default function About() {
                 para quem usa.
               </p>
               <p>
-                Não busco apenas escrever código que funciona — busco construir
+                Não busco apenas escrever código que funciona. Busco construir
                 produtos que resolvem problemas reais.
               </p>
             </div>

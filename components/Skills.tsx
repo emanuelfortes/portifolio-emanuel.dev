@@ -215,7 +215,7 @@ function GlassCard({
       onMouseEnter={() => { hoveredRef.current = true; }}
       onMouseLeave={() => { hoveredRef.current = false; }}
     >
-      {/* Canvas rainbow border — slightly larger than card to give glow room */}
+      {/* Canvas brand border, slightly larger than card to give glow room */}
       <canvas
         ref={canvasRef}
         className="absolute pointer-events-none rounded-2xl"
@@ -316,7 +316,7 @@ export default function Skills() {
             Stack técnico
           </h2>
           <p className="text-text-muted font-light mt-3 max-w-md mx-auto text-[15px]">
-            Ferramentas que uso para construir sistemas completos — do banco de
+            Ferramentas que uso para construir sistemas completos, do banco de
             dados à interface final.
           </p>
         </div>

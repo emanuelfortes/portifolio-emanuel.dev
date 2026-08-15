@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { whatsappLink } from "@/data/site";
+import WhatsAppIcon from "./WhatsAppIcon";
 
 const navLinks = [
   { label: "Sobre", href: "#sobre" },
@@ -38,7 +40,7 @@ export default function Navbar() {
         {/* Logo */}
         <a
           href="#"
-          aria-label="Fortes Dev — início"
+          aria-label="Fortes Dev, voltar ao início"
           className="flex items-center gap-2.5 group"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
@@ -72,13 +74,12 @@ export default function Navbar() {
 
         {/* CTA Desktop */}
         <a
-          href="#contato"
-          onClick={(e) => {
-            e.preventDefault();
-            handleNavClick("#contato");
-          }}
+          href={whatsappLink}
+          target="_blank"
+          rel="noopener noreferrer"
           className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-brand-primary/10 border border-brand-primary/20 text-brand-light text-sm font-medium hover:bg-brand-primary/20 hover:border-brand-primary/40 transition-all duration-200"
         >
+          <WhatsAppIcon />
           Falar comigo
         </a>
 
@@ -122,12 +123,16 @@ export default function Navbar() {
               {link.label}
             </button>
           ))}
-          <button
-            onClick={() => handleNavClick("#contato")}
-            className="mt-2 px-4 py-2 rounded-lg bg-brand-primary text-white text-sm font-medium text-center"
+          <a
+            href={whatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMenuOpen(false)}
+            className="mt-2 px-4 py-2 rounded-lg bg-brand-primary text-white text-sm font-medium inline-flex items-center justify-center gap-2"
           >
+            <WhatsAppIcon />
             Falar comigo
-          </button>
+          </a>
         </div>
       </div>
     </header>

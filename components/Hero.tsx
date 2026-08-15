@@ -126,7 +126,7 @@ export default function Hero() {
             data-aos-duration="700"
             data-aos-delay="200"
           >
-            Full Stack Developer com visão de produto — construo soluções que
+            Full Stack Developer com visão de produto. Construo soluções que
             funcionam de ponta a ponta, com foco em resultado.
           </p>
 

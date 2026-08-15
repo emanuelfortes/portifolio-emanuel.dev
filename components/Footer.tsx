@@ -7,7 +7,7 @@ export default function Footer() {
         {/* Logo completa */}
         <Image
           src="/logo-on-dark.png"
-          alt="Fortes Dev — Código · Solução · Impacto"
+          alt="Fortes Dev. Código · Solução · Impacto"
           width={954}
           height={806}
           className="w-28 h-auto opacity-90 hover:opacity-100 transition-opacity duration-300"

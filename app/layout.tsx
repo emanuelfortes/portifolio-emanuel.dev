@@ -1,15 +1,12 @@
 import type { Metadata, Viewport } from "next";
+import { siteUrl } from "@/data/site";
 import "./globals.css";
-
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Fortes Dev | Emanuel Fortes — Full Stack Developer",
+  title: "Fortes Dev | Emanuel Fortes, Full Stack Developer",
   description:
-    "Código · Solução · Impacto. Desenvolvedor Full Stack especializado em construir sistemas completos — do backend à interface. Visão de produto, código limpo e foco em resultado.",
+    "Código · Solução · Impacto. Desenvolvedor Full Stack especializado em construir sistemas completos, do backend à interface. Visão de produto, código limpo e foco em resultado.",
   keywords: [
     "fortes dev",
     "emanuel fortes",
@@ -22,11 +19,32 @@ export const metadata: Metadata = {
     "portfolio",
   ],
   openGraph: {
-    title: "Fortes Dev | Emanuel Fortes — Full Stack Developer",
+    title: "Fortes Dev | Emanuel Fortes, Full Stack Developer",
     description:
       "Código · Solução · Impacto. Construo sistemas completos com visão de produto e foco em resultado.",
     type: "website",
-    images: [{ url: "/logo-on-dark.png", width: 954, height: 806 }],
+    locale: "pt_BR",
+    siteName: "Fortes Dev",
+    url: siteUrl,
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 675,
+        type: "image/jpeg",
+        alt: "Fortes Dev. Desenvolvo sistemas, da interface ao backend.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Fortes Dev | Emanuel Fortes, Full Stack Developer",
+    description:
+      "Código · Solução · Impacto. Construo sistemas completos com visão de produto e foco em resultado.",
+    images: ["/og-image.jpg"],
+  },
+  alternates: {
+    canonical: "/",
   },
 };
 

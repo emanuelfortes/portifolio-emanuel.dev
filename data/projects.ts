@@ -22,7 +22,7 @@ export const projects: Project[] = [
     shortDescription:
       "Plataforma completa de gestão de clientes com pipeline de vendas, painel administrativo e relatórios em tempo real.",
     fullDescription:
-      "Sistema CRM desenvolvido do zero para centralizar o processo comercial de uma equipe de vendas. O projeto cobriu desde a modelagem do banco de dados, definição de regras de negócio, até a construção da interface final — com foco em usabilidade e performance.",
+      "Sistema CRM desenvolvido do zero para centralizar o processo comercial de uma equipe de vendas. O projeto cobriu desde a modelagem do banco de dados, definição de regras de negócio, até a construção da interface final, com foco em usabilidade e performance.",
     problem:
       "A equipe utilizava planilhas descentralizadas para acompanhar clientes e negociações, o que gerava perda de informações, retrabalho e falta de visibilidade sobre o pipeline.",
     solution:
@@ -46,7 +46,7 @@ export const projects: Project[] = [
     shortDescription:
       "Interface analítica com visualização de dados em tempo real, filtros dinâmicos e exportação de relatórios para tomada de decisão.",
     fullDescription:
-      "Dashboard analítico desenvolvido para consolidar dados de múltiplas fontes em uma interface clara e acionável. O painel permite que gestores acompanhem KPIs, identifiquem gargalos e tomem decisões baseadas em dados — sem depender de terceiros para gerar relatórios.",
+      "Dashboard analítico desenvolvido para consolidar dados de múltiplas fontes em uma interface clara e acionável. O painel permite que gestores acompanhem KPIs, identifiquem gargalos e tomem decisões baseadas em dados, sem depender de terceiros para gerar relatórios.",
     problem:
       "Os dados da operação estavam dispersos em diferentes sistemas e a geração de relatórios era manual, lenta e propensa a erros.",
     solution:
