@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { projects } from "@/data/projects";
 import type { Metadata } from "next";
 
@@ -52,14 +53,17 @@ export default function ProjectPage({ params }: Props) {
             </svg>
             Voltar ao portfólio
           </Link>
-          <span className="text-xs text-text-dim font-medium">{project.year}</span>
+          <div className="flex items-center gap-3">
+            <span className="text-xs text-text-dim font-medium">{project.year}</span>
+            <Image src="/mark.png" alt="Fortes Dev" width={693} height={693} className="w-6 h-6 opacity-80" />
+          </div>
         </div>
       </div>
 
       <main className="max-w-4xl mx-auto px-6 pt-28 pb-24">
         {/* Header */}
         <div className="mb-12">
-          <span className="inline-block text-xs font-semibold text-blue-primary uppercase tracking-widest mb-3">
+          <span className="inline-block text-xs font-semibold text-brand-light uppercase tracking-widest mb-3">
             {project.tag}
           </span>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-text-primary tracking-tight leading-tight mb-4">
@@ -75,7 +79,7 @@ export default function ProjectPage({ params }: Props) {
           {project.stack.map((tech) => (
             <span
               key={tech}
-              className="px-3 py-1.5 rounded-lg bg-blue-primary/8 border border-blue-primary/15 text-blue-glow text-xs font-medium"
+              className="px-3 py-1.5 rounded-lg bg-brand-primary/8 border border-brand-primary/15 text-brand-light text-xs font-medium"
             >
               {tech}
             </span>
@@ -100,8 +104,8 @@ export default function ProjectPage({ params }: Props) {
           {/* Solution */}
           <div className="p-5 rounded-2xl bg-surface border border-white/5">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-6 h-6 rounded-md bg-blue-primary/10 border border-blue-primary/20 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 text-blue-glow" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <div className="w-6 h-6 rounded-md bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 text-brand-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
                 </svg>
               </div>
@@ -141,8 +145,8 @@ export default function ProjectPage({ params }: Props) {
                 key={h}
                 className="flex items-start gap-3 p-4 rounded-xl bg-surface border border-white/5"
               >
-                <span className="flex-shrink-0 mt-0.5 w-4 h-4 rounded-full bg-blue-primary/15 border border-blue-primary/25 flex items-center justify-center">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-primary" />
+                <span className="flex-shrink-0 mt-0.5 w-4 h-4 rounded-full bg-brand-primary/15 border border-brand-primary/25 flex items-center justify-center">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-primary" />
                 </span>
                 <span className="text-sm text-text-muted font-light">{h}</span>
               </li>
@@ -157,7 +161,7 @@ export default function ProjectPage({ params }: Props) {
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-primary text-white text-sm font-semibold hover:bg-blue-glow transition-all duration-200 shadow-blue-sm"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-primary text-white text-sm font-semibold hover:bg-brand-glow transition-all duration-200 shadow-brand-sm"
             >
               Ver projeto ao vivo
               <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -170,7 +174,7 @@ export default function ProjectPage({ params }: Props) {
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-surface border border-white/10 text-text-muted text-sm font-medium hover:border-blue-primary/30 hover:text-text-primary transition-all duration-200"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-surface border border-white/10 text-text-muted text-sm font-medium hover:border-brand-primary/30 hover:text-text-primary transition-all duration-200"
             >
               Ver no GitHub
               <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -185,19 +189,19 @@ export default function ProjectPage({ params }: Props) {
           <p className="text-xs text-text-dim uppercase tracking-widest mb-4">Próximo projeto</p>
           <Link
             href={`/projeto/${nextProject.slug}`}
-            className="group flex items-center justify-between p-5 rounded-2xl bg-surface border border-white/5 hover:border-blue-primary/25 transition-all duration-300"
+            className="group flex items-center justify-between p-5 rounded-2xl bg-surface border border-white/5 hover:border-brand-primary/25 transition-all duration-300"
           >
             <div>
-              <span className="text-xs text-blue-primary font-semibold uppercase tracking-widest">
+              <span className="text-xs text-brand-light font-semibold uppercase tracking-widest">
                 {nextProject.tag}
               </span>
-              <p className="font-bold text-text-primary text-lg mt-1 group-hover:text-blue-glow transition-colors duration-200">
+              <p className="font-bold text-text-primary text-lg mt-1 group-hover:text-brand-light transition-colors duration-200">
                 {nextProject.title}
               </p>
             </div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-5 text-text-dim group-hover:text-blue-glow group-hover:translate-x-1 transition-all duration-200"
+              className="w-5 h-5 text-text-dim group-hover:text-brand-light group-hover:translate-x-1 transition-all duration-200"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

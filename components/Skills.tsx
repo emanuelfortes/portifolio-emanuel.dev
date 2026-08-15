@@ -60,7 +60,7 @@ function SkillBar({ name, level }: { name: string; level: number }) {
       </div>
       <div className="h-1 bg-white/5 rounded-full overflow-hidden">
         <div
-          className="h-full bg-gradient-to-r from-blue-dim to-blue-primary rounded-full transition-all duration-700"
+          className="h-full bg-gradient-to-r from-brand-dim to-brand-primary rounded-full transition-all duration-700"
           style={{ width: `${level}%` }}
         />
       </div>
@@ -71,6 +71,9 @@ function SkillBar({ name, level }: { name: string; level: number }) {
 // Speed: very slow idle drift, faster on hover
 const SPEED_IDLE = 0.0003;
 const SPEED_HOVER = 0.004;
+
+// Matiz do violeta da marca (#6124C9)
+const BRAND_HUE = 262;
 
 function GlassCard({
   cat,
@@ -156,18 +159,18 @@ function GlassCard({
       const cardH = h - P * 2;
       const perimeter = 2 * (cardW + cardH) - 8 * (4 - Math.PI) * radius;
 
-      // Rainbow gradient travelling along the border
-      const hueBase = (progress * 360) % 360;
+      // Gradiente na faixa de violeta da marca (hue ~262°) viajando pela borda
+      const hueBase = BRAND_HUE + Math.sin(progress * Math.PI * 2) * 14;
       const grad = ctx.createLinearGradient(P, P, w - P, h - P);
-      grad.addColorStop(0,    `hsla(${hueBase},       100%, 68%, 0)`);
-      grad.addColorStop(0.08, `hsla(${hueBase},       100%, 68%, ${0.15 * alpha})`);
-      grad.addColorStop(0.2,  `hsla(${hueBase + 40},  100%, 70%, ${alpha})`);
-      grad.addColorStop(0.35, `hsla(${hueBase + 100}, 100%, 68%, ${alpha})`);
-      grad.addColorStop(0.5,  `hsla(${hueBase + 160}, 100%, 72%, ${alpha})`);
-      grad.addColorStop(0.65, `hsla(${hueBase + 220}, 100%, 68%, ${alpha})`);
-      grad.addColorStop(0.8,  `hsla(${hueBase + 280}, 100%, 70%, ${alpha})`);
-      grad.addColorStop(0.92, `hsla(${hueBase + 340}, 100%, 68%, ${0.15 * alpha})`);
-      grad.addColorStop(1,    `hsla(${hueBase + 360}, 100%, 68%, 0)`);
+      grad.addColorStop(0,    `hsla(${hueBase - 14}, 85%, 62%, 0)`);
+      grad.addColorStop(0.08, `hsla(${hueBase - 14}, 85%, 62%, ${0.15 * alpha})`);
+      grad.addColorStop(0.2,  `hsla(${hueBase - 8},  88%, 66%, ${alpha})`);
+      grad.addColorStop(0.35, `hsla(${hueBase},      92%, 72%, ${alpha})`);
+      grad.addColorStop(0.5,  `hsla(${hueBase + 6},  96%, 80%, ${alpha})`);
+      grad.addColorStop(0.65, `hsla(${hueBase + 12}, 92%, 72%, ${alpha})`);
+      grad.addColorStop(0.8,  `hsla(${hueBase + 18}, 88%, 66%, ${alpha})`);
+      grad.addColorStop(0.92, `hsla(${hueBase + 22}, 85%, 62%, ${0.15 * alpha})`);
+      grad.addColorStop(1,    `hsla(${hueBase + 26}, 85%, 62%, 0)`);
 
       // Travelling arc segment
       const segmentLength = perimeter * 0.42;
@@ -178,7 +181,7 @@ function GlassCard({
       ctx.lineWidth = borderWidth;
       ctx.setLineDash([segmentLength, perimeter - segmentLength]);
       ctx.lineDashOffset = -dashStart + segmentLength;
-      ctx.shadowColor = `hsla(${hueBase + 160}, 100%, 72%, ${0.7 * alpha})`;
+      ctx.shadowColor = `hsla(${hueBase + 6}, 96%, 76%, ${0.7 * alpha})`;
       ctx.shadowBlur = hoveredRef.current ? 12 : 6;
       ctx.stroke(path);
       ctx.restore();
@@ -237,7 +240,7 @@ function GlassCard({
         }}
       >
         <div className="flex items-center gap-3 mb-6">
-          <span className="text-xs font-bold text-blue-dim font-mono">
+          <span className="text-xs font-bold text-brand-glow font-mono">
             {cat.tag}
           </span>
           <h3 className="font-semibold text-text-primary text-sm tracking-wide uppercase">
@@ -258,9 +261,9 @@ export default function Skills() {
   return (
     <section id="skills" className="py-24 relative overflow-hidden">
       {/* Deep dark base */}
-      <div className="absolute inset-0" style={{ background: "#080d14" }} />
+      <div className="absolute inset-0" style={{ background: "#09060F" }} />
 
-      {/* Aurora blob — left-center, blue/indigo */}
+      {/* Aurora blob — left-center, violeta profundo da marca */}
       <div
         className="absolute pointer-events-none"
         style={{
@@ -269,12 +272,12 @@ export default function Skills() {
           bottom: "-10%",
           left: "-5%",
           background:
-            "radial-gradient(ellipse at center, rgba(56, 80, 200, 0.45) 0%, rgba(80, 40, 180, 0.2) 45%, transparent 70%)",
+            "radial-gradient(ellipse at center, rgba(97, 36, 201, 0.5) 0%, rgba(68, 34, 131, 0.24) 45%, transparent 70%)",
           filter: "blur(60px)",
         }}
       />
 
-      {/* Aurora blob — right-center, purple */}
+      {/* Aurora blob — right-center, violeta claro */}
       <div
         className="absolute pointer-events-none"
         style={{
@@ -283,7 +286,7 @@ export default function Skills() {
           bottom: "-5%",
           right: "5%",
           background:
-            "radial-gradient(ellipse at center, rgba(110, 50, 220, 0.35) 0%, rgba(60, 30, 160, 0.15) 50%, transparent 70%)",
+            "radial-gradient(ellipse at center, rgba(149, 95, 242, 0.34) 0%, rgba(40, 33, 63, 0.4) 50%, transparent 70%)",
           filter: "blur(70px)",
         }}
       />
@@ -306,7 +309,7 @@ export default function Skills() {
           data-aos="fade-up"
           data-aos-duration="600"
         >
-          <p className="text-xs font-semibold tracking-widest text-blue-primary uppercase mb-4">
+          <p className="text-xs font-semibold tracking-widest text-brand-light uppercase mb-4">
             // habilidades
           </p>
           <h2 className="text-3xl sm:text-4xl font-bold text-text-primary tracking-tight">

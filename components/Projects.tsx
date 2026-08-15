@@ -11,7 +11,7 @@ export default function Projects() {
           data-aos="fade-up"
           data-aos-duration="600"
         >
-          <p className="text-xs font-semibold tracking-widest text-blue-primary uppercase mb-4">
+          <p className="text-xs font-semibold tracking-widest text-brand-light uppercase mb-4">
             // projetos
           </p>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">

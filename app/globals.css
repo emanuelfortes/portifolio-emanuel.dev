@@ -16,8 +16,8 @@
   }
 
   body {
-    background-color: #0B0F19;
-    color: #E5E7EB;
+    background-color: #0D0A17;
+    color: #E9E6F2;
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -43,8 +43,8 @@
   }
 
   ::selection {
-    background-color: rgba(59, 130, 246, 0.3);
-    color: #E5E7EB;
+    background-color: rgba(97, 36, 201, 0.4);
+    color: #E9E6F2;
   }
 
   ::-webkit-scrollbar {
@@ -52,35 +52,35 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #0B0F19;
+    background: #0D0A17;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #1D4ED8;
+    background: #442283;
     border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #3B82F6;
+    background: #6124C9;
   }
 }
 
 @layer utilities {
   .text-gradient {
-    background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #93C5FD 100%);
+    background: linear-gradient(135deg, #B794FF 0%, #6124C9 48%, #C9AEFF 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .border-glow {
-    border-color: rgba(59, 130, 246, 0.3);
-    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.1);
+    border-color: rgba(97, 36, 201, 0.35);
+    box-shadow: 0 0 0 1px rgba(97, 36, 201, 0.15);
   }
 
   /* ── Glassmorphism card ── */
   .glass-card {
-    background: rgba(15, 23, 42, 0.55);
+    background: rgba(28, 20, 46, 0.55);
     backdrop-filter: blur(18px) saturate(160%);
     -webkit-backdrop-filter: blur(18px) saturate(160%);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -117,11 +117,11 @@
   .glass-card-hover:hover {
     transform: translateY(-6px) scale(1.015);
     box-shadow:
-      0 0 0 1px rgba(96, 165, 250, 0.25),
-      0 8px 32px rgba(59, 130, 246, 0.18),
+      0 0 0 1px rgba(149, 95, 242, 0.3),
+      0 8px 32px rgba(97, 36, 201, 0.28),
       0 24px 48px rgba(0, 0, 0, 0.5),
       inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    border-color: rgba(96, 165, 250, 0.3);
+    border-color: rgba(149, 95, 242, 0.35);
   }
 
   /* Borda colorida animada no topo do card */
@@ -131,8 +131,8 @@
     height: 1px;
     background: linear-gradient(90deg,
       transparent 0%,
-      rgba(96, 165, 250, 0.6) 30%,
-      rgba(139, 92, 246, 0.5) 60%,
+      rgba(149, 95, 242, 0.7) 30%,
+      rgba(183, 148, 255, 0.55) 60%,
       transparent 100%
     );
     opacity: 0;
@@ -150,16 +150,16 @@
 
   .card-hover:hover {
     transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 0 32px rgba(59, 130, 246, 0.2), 0 20px 40px rgba(0, 0, 0, 0.4);
-    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 0 32px rgba(97, 36, 201, 0.3), 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(97, 36, 201, 0.45);
   }
 
   .glow-dot {
     width: 6px;
     height: 6px;
-    background: #3B82F6;
+    background: #955FF2;
     border-radius: 50%;
-    box-shadow: 0 0 8px #3B82F6, 0 0 16px rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 8px #955FF2, 0 0 16px rgba(97, 36, 201, 0.6);
     animation: glowPulse 2.5s ease-in-out infinite;
   }
 
@@ -178,8 +178,8 @@
   }
 
   .stack-icon:hover {
-    background: rgba(59, 130, 246, 0.12);
-    border-color: rgba(96, 165, 250, 0.3);
+    background: rgba(97, 36, 201, 0.16);
+    border-color: rgba(149, 95, 242, 0.35);
     transform: translateY(-2px);
   }
 
@@ -190,12 +190,12 @@
     gap: 6px;
     font-size: 13px;
     font-weight: 500;
-    color: rgba(229, 231, 235, 0.7);
+    color: rgba(233, 230, 242, 0.7);
     transition: color 0.2s ease;
     text-decoration: none;
   }
 
   .visit-link:hover {
-    color: #60A5FA;
+    color: #B794FF;
   }
 }

@@ -45,7 +45,7 @@ export default function Hero() {
         }
         ctx.beginPath();
         ctx.arc(dot.x, dot.y, dot.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(59,130,246,${dot.alpha + Math.sin(t + dot.x) * 0.05})`;
+        ctx.fillStyle = `rgba(149,95,242,${dot.alpha + Math.sin(t + dot.x) * 0.05})`;
         ctx.fill();
       });
 
@@ -82,7 +82,7 @@ export default function Hero() {
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px)",
+            "linear-gradient(rgba(149,95,242,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(149,95,242,0.05) 1px, transparent 1px)",
           backgroundSize: "64px 64px",
         }}
       />
@@ -91,7 +91,7 @@ export default function Hero() {
         <div className="max-w-3xl">
           {/* Status badge */}
           <div
-            className="inline-flex items-center gap-2.5 mb-8 px-4 py-2 rounded-full bg-blue-primary/8 border border-blue-primary/20 text-sm text-blue-glow font-medium"
+            className="inline-flex items-center gap-2.5 mb-8 px-4 py-2 rounded-full bg-brand-primary/8 border border-brand-primary/20 text-sm text-brand-light font-medium"
             data-aos="fade-down"
             data-aos-duration="600"
           >
@@ -150,7 +150,7 @@ export default function Hero() {
           >
             <button
               onClick={handleProjects}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-primary text-white font-semibold text-sm hover:bg-blue-glow transition-all duration-200 shadow-blue-sm hover:shadow-blue-md"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-primary text-white font-semibold text-sm hover:bg-brand-glow transition-all duration-200 shadow-brand-sm hover:shadow-brand-md"
             >
               Ver projetos
               <svg
@@ -170,7 +170,7 @@ export default function Hero() {
             </button>
             <button
               onClick={handleContact}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-transparent border border-white/10 text-text-muted font-medium text-sm hover:border-blue-primary/30 hover:text-text-primary transition-all duration-200"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-transparent border border-white/10 text-text-muted font-medium text-sm hover:border-brand-primary/30 hover:text-text-primary transition-all duration-200"
             >
               Entrar em contato
             </button>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 const navLinks = [
   { label: "Sobre", href: "#sobre" },
@@ -37,10 +38,21 @@ export default function Navbar() {
         {/* Logo */}
         <a
           href="#"
-          className="font-bold text-lg tracking-tight text-text-primary hover:text-blue-glow transition-colors duration-200"
+          aria-label="Fortes Dev — início"
+          className="flex items-center gap-2.5 group"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
-          emanuelfortes<span className="text-blue-primary">.dev</span>
+          <Image
+            src="/mark.png"
+            alt=""
+            width={693}
+            height={693}
+            priority
+            className="w-8 h-8 transition-transform duration-300 group-hover:scale-110"
+          />
+          <span className="font-bold text-lg tracking-tight text-text-primary leading-none">
+            FORTES<span className="text-brand-light"> DEV</span>
+          </span>
         </a>
 
         {/* Desktop Links */}
@@ -52,7 +64,7 @@ export default function Navbar() {
                 className="text-sm font-medium text-text-muted hover:text-text-primary transition-colors duration-200 relative group"
               >
                 {link.label}
-                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-blue-primary group-hover:w-full transition-all duration-300" />
+                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-brand-primary group-hover:w-full transition-all duration-300" />
               </button>
             </li>
           ))}
@@ -65,7 +77,7 @@ export default function Navbar() {
             e.preventDefault();
             handleNavClick("#contato");
           }}
-          className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-primary/10 border border-blue-primary/20 text-blue-glow text-sm font-medium hover:bg-blue-primary/20 hover:border-blue-primary/40 transition-all duration-200"
+          className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-brand-primary/10 border border-brand-primary/20 text-brand-light text-sm font-medium hover:bg-brand-primary/20 hover:border-brand-primary/40 transition-all duration-200"
         >
           Falar comigo
         </a>
@@ -112,7 +124,7 @@ export default function Navbar() {
           ))}
           <button
             onClick={() => handleNavClick("#contato")}
-            className="mt-2 px-4 py-2 rounded-lg bg-blue-primary text-white text-sm font-medium text-center"
+            className="mt-2 px-4 py-2 rounded-lg bg-brand-primary text-white text-sm font-medium text-center"
           >
             Falar comigo
           </button>

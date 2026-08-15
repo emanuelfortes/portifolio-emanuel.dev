@@ -46,7 +46,7 @@ export default function About() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left */}
           <div data-aos="fade-right" data-aos-duration="700">
-            <p className="text-xs font-semibold tracking-widest text-blue-primary uppercase mb-4">
+            <p className="text-xs font-semibold tracking-widest text-brand-light uppercase mb-4">
               // sobre
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold text-text-primary leading-tight tracking-tight mb-6">
@@ -77,7 +77,7 @@ export default function About() {
               {badges.map((b) => (
                 <span
                   key={b}
-                  className="px-3 py-1.5 rounded-lg bg-blue-primary/8 border border-blue-primary/15 text-blue-glow text-xs font-medium"
+                  className="px-3 py-1.5 rounded-lg bg-brand-primary/8 border border-brand-primary/15 text-brand-light text-xs font-medium"
                 >
                   {b}
                 </span>
@@ -95,9 +95,9 @@ export default function About() {
             {differentials.map((d) => (
               <div
                 key={d.title}
-                className="flex gap-4 p-5 rounded-2xl glass-card hover:border-blue-primary/25 transition-all duration-300 group"
+                className="flex gap-4 p-5 rounded-2xl glass-card hover:border-brand-primary/25 transition-all duration-300 group"
               >
-                <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-blue-primary/10 border border-blue-primary/15 flex items-center justify-center text-blue-glow group-hover:bg-blue-primary/15 transition-colors duration-200">
+                <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-brand-primary/10 border border-brand-primary/15 flex items-center justify-center text-brand-light group-hover:bg-brand-primary/15 transition-colors duration-200">
                   {d.icon}
                 </div>
                 <div>

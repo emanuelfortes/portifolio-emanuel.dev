@@ -114,7 +114,7 @@ const stackIcons: Record<string, { label: string; svg: React.ReactNode }> = {
 
 function GenericIcon({ label }: { label: string }) {
   return (
-    <span className="text-[9px] font-bold text-blue-glow/70 leading-none select-none">
+    <span className="text-[9px] font-bold text-brand-light/70 leading-none select-none">
       {label.slice(0, 2).toUpperCase()}
     </span>
   );
@@ -174,7 +174,7 @@ export default function ProjectCard({ project, index }: Props) {
       </div>
 
       {/* Título */}
-      <h3 className="font-bold text-text-primary text-xl mb-3 tracking-tight group-hover:text-blue-glow transition-colors duration-200 leading-snug">
+      <h3 className="font-bold text-text-primary text-xl mb-3 tracking-tight group-hover:text-brand-light transition-colors duration-200 leading-snug">
         {project.title}
       </h3>
 

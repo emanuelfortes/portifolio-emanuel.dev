@@ -35,7 +35,7 @@ export default function Contact() {
   return (
     <section id="contato" className="py-24 relative">
       {/* Glow bg */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-blue-primary/5 blur-3xl rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-brand-primary/5 blur-3xl rounded-full pointer-events-none" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6">
         <div
@@ -43,7 +43,7 @@ export default function Contact() {
           data-aos="fade-up"
           data-aos-duration="700"
         >
-          <p className="text-xs font-semibold tracking-widest text-blue-primary uppercase mb-4">
+          <p className="text-xs font-semibold tracking-widest text-brand-light uppercase mb-4">
             // contato
           </p>
           <h2 className="text-3xl sm:text-4xl font-bold text-text-primary tracking-tight mb-4">
@@ -63,7 +63,7 @@ export default function Contact() {
               </span>
               <button
                 onClick={handleCopy}
-                className="text-blue-glow hover:text-blue-primary transition-colors duration-200"
+                className="text-brand-light hover:text-white transition-colors duration-200"
                 aria-label="Copiar email"
               >
                 {copied ? (
@@ -87,7 +87,7 @@ export default function Contact() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-surface border border-white/8 text-text-muted text-sm font-medium hover:border-blue-primary/30 hover:text-blue-glow transition-all duration-200"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-surface border border-white/8 text-text-muted text-sm font-medium hover:border-brand-primary/30 hover:text-brand-light transition-all duration-200"
               >
                 {link.icon}
                 {link.label}
@@ -95,7 +95,7 @@ export default function Contact() {
             ))}
             <a
               href="mailto:seuemail@email.com"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-primary text-white text-sm font-semibold hover:bg-blue-glow transition-all duration-200 shadow-blue-sm hover:shadow-blue-md"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-primary text-white text-sm font-semibold hover:bg-brand-glow transition-all duration-200 shadow-brand-sm hover:shadow-brand-md"
             >
               Enviar mensagem
               <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
