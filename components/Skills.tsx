@@ -1,334 +1,145 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-type SkillCategory = {
-  label: string;
-  tag: string;
-  skills: { name: string; level: number }[];
+type Group = {
+  name: string;
+  meta: string;
+  items: { name: string; pct: number }[];
 };
 
-const skillCategories: SkillCategory[] = [
+const groups: Group[] = [
   {
-    label: "Frontend",
-    tag: "01",
-    skills: [
-      { name: "HTML & CSS", level: 90 },
-      { name: "JavaScript (ES6+)", level: 85 },
-      { name: "React.js", level: 80 },
-      { name: "Next.js", level: 75 },
-      { name: "TypeScript", level: 72 },
-      { name: "Tailwind CSS", level: 88 },
-      { name: "UI / UX Principles", level: 78 },
+    name: "Frontend",
+    meta: "07 tecnologias · interface",
+    items: [
+      { name: "HTML & CSS", pct: 90 },
+      { name: "JavaScript (ES6+)", pct: 85 },
+      { name: "React.js", pct: 80 },
+      { name: "Next.js", pct: 75 },
+      { name: "TypeScript", pct: 72 },
+      { name: "Tailwind CSS", pct: 88 },
+      { name: "UI / UX Principles", pct: 78 },
     ],
   },
   {
-    label: "Backend",
-    tag: "02",
-    skills: [
-      { name: "Node.js", level: 80 },
-      { name: "REST APIs", level: 85 },
-      { name: "PostgreSQL", level: 75 },
-      { name: "MySQL", level: 72 },
-      { name: "Autenticação & JWT", level: 78 },
-      { name: "Regras de Negócio", level: 82 },
-      { name: "Prisma ORM", level: 70 },
+    name: "Backend",
+    meta: "07 tecnologias · servidor & dados",
+    items: [
+      { name: "Node.js", pct: 80 },
+      { name: "REST APIs", pct: 85 },
+      { name: "PostgreSQL", pct: 75 },
+      { name: "MySQL", pct: 72 },
+      { name: "Autenticação & JWT", pct: 78 },
+      { name: "Regras de Negócio", pct: 82 },
+      { name: "Prisma ORM", pct: 70 },
     ],
   },
   {
-    label: "Outros",
-    tag: "03",
-    skills: [
-      { name: "Git & GitHub", level: 85 },
-      { name: "Visão de Produto (PO)", level: 80 },
-      { name: "Lógica de Programação", level: 90 },
-      { name: "Metodologias Ágeis", level: 75 },
-      { name: "Docker (básico)", level: 55 },
-      { name: "Documentação técnica", level: 78 },
+    name: "Outros",
+    meta: "06 competências · processo",
+    items: [
+      { name: "Git & GitHub", pct: 85 },
+      { name: "Visão de Produto (PO)", pct: 80 },
+      { name: "Lógica de Programação", pct: 90 },
+      { name: "Metodologias Ágeis", pct: 75 },
+      { name: "Docker (básico)", pct: 55 },
+      { name: "Documentação técnica", pct: 78 },
     ],
   },
 ];
 
-function SkillBar({ name, level }: { name: string; level: number }) {
-  return (
-    <div className="group">
-      <div className="flex justify-between items-center mb-1.5">
-        <span className="text-sm text-text-muted font-light group-hover:text-text-primary transition-colors duration-200">
-          {name}
-        </span>
-        <span className="text-xs text-text-dim font-medium">{level}%</span>
-      </div>
-      <div className="h-1 bg-white/5 rounded-full overflow-hidden">
-        <div
-          className="h-full bg-gradient-to-r from-brand-dim to-brand-primary rounded-full transition-all duration-700"
-          style={{ width: `${level}%` }}
-        />
-      </div>
-    </div>
-  );
-}
+export default function Skills() {
+  const [tab, setTab] = useState(0);
+  const [barsIn, setBarsIn] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout>>();
 
-// Speed: very slow idle drift, faster on hover
-const SPEED_IDLE = 0.0003;
-const SPEED_HOVER = 0.004;
-
-// Matiz do violeta da marca (#6124C9)
-const BRAND_HUE = 262;
-
-function GlassCard({
-  cat,
-  delay = 0,
-  index,
-}: {
-  cat: SkillCategory;
-  delay?: number;
-  index: number;
-}) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animRef = useRef<number>(0);
-  const progressRef = useRef<number>(index * 0.33);
-  const speedRef = useRef<number>(SPEED_IDLE);
-  const hoveredRef = useRef<boolean>(false);
-  const opacityRef = useRef<number>(0.18);
-
+  // Anima as barras na carga inicial
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const dpr = window.devicePixelRatio || 1;
-
-    const PADDING = 8;
-    const resize = () => {
-      const parent = canvas.parentElement;
-      if (!parent) return;
-      const rect = parent.getBoundingClientRect();
-      const w = rect.width + PADDING * 2;
-      const h = rect.height + PADDING * 2;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      canvas.style.width = w + "px";
-      canvas.style.height = h + "px";
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-
-    resize();
-    window.addEventListener("resize", resize);
-
-    const draw = () => {
-      const w = canvas.width / dpr;
-      const h = canvas.height / dpr;
-      const P = 8; // same as PADDING
-      const radius = 16;
-      const borderWidth = 1.8;
-      const offset = borderWidth / 2;
-
-      ctx.clearRect(0, 0, w, h);
-
-      // Lerp speed and opacity
-      const targetSpeed = hoveredRef.current ? SPEED_HOVER : SPEED_IDLE;
-      speedRef.current += (targetSpeed - speedRef.current) * 0.06;
-
-      const targetOpacity = hoveredRef.current ? 1 : 0.18;
-      opacityRef.current += (targetOpacity - opacityRef.current) * 0.05;
-
-      progressRef.current += speedRef.current;
-
-      const progress = progressRef.current;
-      const alpha = opacityRef.current;
-
-      // Rounded-rect path offset by PADDING
-      const x0 = P + offset;
-      const y0 = P + offset;
-      const x1 = w - P - offset;
-      const y1 = h - P - offset;
-
-      const path = new Path2D();
-      path.moveTo(x0 + radius, y0);
-      path.lineTo(x1 - radius, y0);
-      path.arcTo(x1, y0, x1, y0 + radius, radius);
-      path.lineTo(x1, y1 - radius);
-      path.arcTo(x1, y1, x1 - radius, y1, radius);
-      path.lineTo(x0 + radius, y1);
-      path.arcTo(x0, y1, x0, y1 - radius, radius);
-      path.lineTo(x0, y0 + radius);
-      path.arcTo(x0, y0, x0 + radius, y0, radius);
-
-      const cardW = w - P * 2;
-      const cardH = h - P * 2;
-      const perimeter = 2 * (cardW + cardH) - 8 * (4 - Math.PI) * radius;
-
-      // Gradiente na faixa de violeta da marca (hue ~262°) viajando pela borda
-      const hueBase = BRAND_HUE + Math.sin(progress * Math.PI * 2) * 14;
-      const grad = ctx.createLinearGradient(P, P, w - P, h - P);
-      grad.addColorStop(0,    `hsla(${hueBase - 14}, 85%, 62%, 0)`);
-      grad.addColorStop(0.08, `hsla(${hueBase - 14}, 85%, 62%, ${0.15 * alpha})`);
-      grad.addColorStop(0.2,  `hsla(${hueBase - 8},  88%, 66%, ${alpha})`);
-      grad.addColorStop(0.35, `hsla(${hueBase},      92%, 72%, ${alpha})`);
-      grad.addColorStop(0.5,  `hsla(${hueBase + 6},  96%, 80%, ${alpha})`);
-      grad.addColorStop(0.65, `hsla(${hueBase + 12}, 92%, 72%, ${alpha})`);
-      grad.addColorStop(0.8,  `hsla(${hueBase + 18}, 88%, 66%, ${alpha})`);
-      grad.addColorStop(0.92, `hsla(${hueBase + 22}, 85%, 62%, ${0.15 * alpha})`);
-      grad.addColorStop(1,    `hsla(${hueBase + 26}, 85%, 62%, 0)`);
-
-      // Travelling arc segment
-      const segmentLength = perimeter * 0.42;
-      const dashStart = (progress % 1) * perimeter;
-
-      ctx.save();
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = borderWidth;
-      ctx.setLineDash([segmentLength, perimeter - segmentLength]);
-      ctx.lineDashOffset = -dashStart + segmentLength;
-      ctx.shadowColor = `hsla(${hueBase + 6}, 96%, 76%, ${0.7 * alpha})`;
-      ctx.shadowBlur = hoveredRef.current ? 12 : 6;
-      ctx.stroke(path);
-      ctx.restore();
-
-      // Static dim base border
-      ctx.save();
-      ctx.strokeStyle = "rgba(255,255,255,0.06)";
-      ctx.lineWidth = 1;
-      ctx.setLineDash([]);
-      ctx.stroke(path);
-      ctx.restore();
-
-      animRef.current = requestAnimationFrame(draw);
-    };
-
-    animRef.current = requestAnimationFrame(draw);
-
-    return () => {
-      cancelAnimationFrame(animRef.current);
-      window.removeEventListener("resize", resize);
-    };
+    timerRef.current = setTimeout(() => setBarsIn(true), 300);
+    return () => clearTimeout(timerRef.current);
   }, []);
 
+  // Ao trocar de aba: zera as barras e re-anima logo em seguida
+  const selectTab = (i: number) => {
+    if (i === tab) return;
+    clearTimeout(timerRef.current);
+    setTab(i);
+    setBarsIn(false);
+    timerRef.current = setTimeout(() => setBarsIn(true), 40);
+  };
+
+  const active = groups[tab];
+
   return (
-    <div
-      className="relative rounded-2xl cursor-default h-full"
-      data-aos="fade-up"
-      data-aos-duration="700"
-      data-aos-delay={delay}
-      style={{ isolation: "isolate" }}
-      onMouseEnter={() => { hoveredRef.current = true; }}
-      onMouseLeave={() => { hoveredRef.current = false; }}
-    >
-      {/* Canvas brand border, slightly larger than card to give glow room */}
-      <canvas
-        ref={canvasRef}
-        className="absolute pointer-events-none rounded-2xl"
+    <section id="skills" className="container-page relative pb-[90px] pt-[70px]">
+      {/* Glow difuso à esquerda */}
+      <div
+        className="pointer-events-none absolute left-[-30%] top-[20%] h-[60vw] w-[60vw] rounded-full blur-[70px]"
         style={{
-          zIndex: 2,
-          top: "-8px",
-          left: "-8px",
-          width: "calc(100% + 16px)",
-          height: "calc(100% + 16px)",
+          background:
+            "radial-gradient(circle, rgba(139,92,246,0.13), transparent 65%)",
         }}
       />
 
-      {/* Glass body */}
-      <div
-        className="relative p-6 rounded-2xl h-full"
-        style={{
-          background:
-            "linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%)",
-          backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
-          zIndex: 1,
-        }}
-      >
-        <div className="flex items-center gap-3 mb-6">
-          <span className="text-xs font-bold text-brand-glow font-mono">
-            {cat.tag}
-          </span>
-          <h3 className="font-semibold text-text-primary text-sm tracking-wide uppercase">
-            {cat.label}
-          </h3>
-        </div>
-        <div className="flex flex-col gap-4">
-          {cat.skills.map((s) => (
-            <SkillBar key={s.name} name={s.name} level={s.level} />
-          ))}
-        </div>
+      <div className="relative flex flex-wrap items-end justify-between gap-4">
+        <h2 className="text-[clamp(26px,3vw,38px)] font-semibold tracking-[-0.03em]">
+          Stack técnico
+        </h2>
+        <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-txt-label">
+          do banco de dados à interface
+        </span>
       </div>
-    </div>
-  );
-}
 
-export default function Skills() {
-  return (
-    <section id="skills" className="py-24 relative overflow-hidden">
-      {/* Deep dark base */}
-      <div className="absolute inset-0" style={{ background: "#09060F" }} />
-
-      {/* Aurora blob — left-center, violeta profundo da marca */}
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          width: "60%",
-          height: "70%",
-          bottom: "-10%",
-          left: "-5%",
-          background:
-            "radial-gradient(ellipse at center, rgba(97, 36, 201, 0.5) 0%, rgba(68, 34, 131, 0.24) 45%, transparent 70%)",
-          filter: "blur(60px)",
-        }}
-      />
-
-      {/* Aurora blob — right-center, violeta claro */}
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          width: "45%",
-          height: "60%",
-          bottom: "-5%",
-          right: "5%",
-          background:
-            "radial-gradient(ellipse at center, rgba(149, 95, 242, 0.34) 0%, rgba(40, 33, 63, 0.4) 50%, transparent 70%)",
-          filter: "blur(70px)",
-        }}
-      />
-
-      {/* Grain noise overlay */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          opacity: 0.55,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`,
-          backgroundRepeat: "repeat",
-          backgroundSize: "200px 200px",
-          mixBlendMode: "overlay",
-        }}
-      />
-
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
-        <div
-          className="text-center mb-14"
-          data-aos="fade-up"
-          data-aos-duration="600"
-        >
-          <p className="text-xs font-semibold tracking-widest text-brand-light uppercase mb-4">
-            // habilidades
-          </p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-text-primary tracking-tight">
-            Stack técnico
-          </h2>
-          <p className="text-text-muted font-light mt-3 max-w-md mx-auto text-[15px]">
-            Ferramentas que uso para construir sistemas completos, do banco de
-            dados à interface final.
-          </p>
+      <div className="relative mt-9 overflow-hidden rounded-card-lg border border-lilac/[0.16] bg-surface-skills">
+        {/* Header: segmented control + meta */}
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-lilac/[0.12] px-7 py-[22px]">
+          <div
+            role="tablist"
+            aria-label="Categorias de skills"
+            className="flex gap-2 rounded-full border border-lilac/[0.14] bg-[rgba(124,92,255,0.06)] p-[5px]"
+          >
+            {groups.map((g, i) => (
+              <button
+                key={g.name}
+                role="tab"
+                aria-selected={i === tab}
+                onClick={() => selectTab(i)}
+                className={[
+                  "rounded-full px-5 py-[9px] font-mono text-[11.5px] uppercase tracking-[0.1em] transition-colors",
+                  i === tab
+                    ? "bg-grad-pill font-semibold text-ink-deep"
+                    : "font-medium text-txt-muted hover:text-txt",
+                ].join(" ")}
+              >
+                {g.name}
+              </button>
+            ))}
+          </div>
+          <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-txt-label">
+            {active.meta}
+          </span>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 items-stretch">
-          {skillCategories.map((cat, i) => (
-            <GlassCard
-              key={cat.label}
-              cat={cat}
-              delay={i * 120}
-              index={i}
-            />
+        {/* Barras */}
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-x-12 gap-y-[22px] px-7 pb-[34px] pt-[30px]">
+          {active.items.map((sk) => (
+            <div key={sk.name}>
+              <div className="mb-[9px] flex items-baseline justify-between">
+                <span className="text-sm font-medium text-txt-skill">
+                  {sk.name}
+                </span>
+                <span className="font-mono text-[11px] text-lilac">
+                  {sk.pct}%
+                </span>
+              </div>
+              <div className="h-1.5 overflow-hidden rounded-[99px] bg-lilac/10">
+                <div
+                  className="h-full rounded-[99px] bg-grad-skill shadow-skill transition-[width] duration-700 ease-smooth"
+                  style={{ width: barsIn ? `${sk.pct}%` : "0%" }}
+                />
+              </div>
+            </div>
           ))}
         </div>
       </div>

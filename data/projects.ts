@@ -12,6 +12,10 @@ export type Project = {
   liveUrl?: string;
   githubUrl?: string;
   year: string;
+  /** Glifo mono exibido na thumb do card. */
+  glyph: string;
+  /** Gradiente de fundo da thumb do card. */
+  thumb: string;
 };
 
 export const projects: Project[] = [
@@ -20,7 +24,7 @@ export const projects: Project[] = [
     tag: "Sistema Web",
     title: "CRM Interno",
     shortDescription:
-      "Plataforma completa de gestão de clientes com pipeline de vendas, painel administrativo e relatórios em tempo real.",
+      "Gestão de clientes com pipeline de vendas, painel administrativo e relatórios em tempo real.",
     fullDescription:
       "Sistema CRM desenvolvido do zero para centralizar o processo comercial de uma equipe de vendas. O projeto cobriu desde a modelagem do banco de dados, definição de regras de negócio, até a construção da interface final, com foco em usabilidade e performance.",
     problem:
@@ -37,14 +41,17 @@ export const projects: Project[] = [
       "Histórico completo de interações por cliente",
       "Exportação de relatórios em PDF e CSV",
     ],
-    year: "2024",
+    year: "2026",
+    glyph: "{ crm }",
+    thumb:
+      "radial-gradient(ellipse 80% 100% at 50% 120%, rgba(139,92,246,0.4), rgba(13,10,22,1))",
   },
   {
     slug: "painel-de-metricas",
     tag: "Dashboard",
     title: "Painel de Métricas",
     shortDescription:
-      "Interface analítica com visualização de dados em tempo real, filtros dinâmicos e exportação de relatórios para tomada de decisão.",
+      "Visualização de dados em tempo real, filtros dinâmicos e exportação de relatórios.",
     fullDescription:
       "Dashboard analítico desenvolvido para consolidar dados de múltiplas fontes em uma interface clara e acionável. O painel permite que gestores acompanhem KPIs, identifiquem gargalos e tomem decisões baseadas em dados, sem depender de terceiros para gerar relatórios.",
     problem:
@@ -61,14 +68,17 @@ export const projects: Project[] = [
       "Consumo de API com atualização automática",
       "Layout responsivo e acessível",
     ],
-    year: "2024",
+    year: "2026",
+    glyph: "▲▲▲",
+    thumb:
+      "radial-gradient(ellipse 80% 100% at 50% -20%, rgba(167,139,250,0.35), rgba(13,10,22,1))",
   },
   {
     slug: "sistema-de-agendamento",
     tag: "Aplicação Web",
     title: "Sistema de Agendamento",
     shortDescription:
-      "Plataforma de agendamento online com confirmação automática, gestão de horários e painel do prestador de serviço.",
+      "Agendamento online com confirmação automática e gestão de horários.",
     fullDescription:
       "Aplicação web que permite que clientes agendem serviços de forma autônoma, com confirmação por e-mail, controle de disponibilidade em tempo real e painel dedicado para o prestador gerenciar todos os agendamentos.",
     problem:
@@ -85,6 +95,9 @@ export const projects: Project[] = [
       "Histórico de agendamentos por cliente",
       "Notificações e lembretes automáticos",
     ],
-    year: "2024",
+    year: "2026",
+    glyph: "[ 09:30 ]",
+    thumb:
+      "radial-gradient(ellipse 100% 120% at 100% 100%, rgba(139,92,246,0.35), rgba(13,10,22,1))",
   },
 ];

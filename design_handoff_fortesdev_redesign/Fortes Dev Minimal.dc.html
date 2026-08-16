@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:#0a0812; color:#ece9f7; font-family:'Space Grotesk',sans-serif; -webkit-font-smoothing:antialiased; }
+  a { color:#c4b5fd; text-decoration:none; } a:hover { color:#ffffff; }
+  ::selection { background:#7c5cff; color:#fff; }
+  @keyframes pulseDot { 0%,100%{ opacity:1;} 50%{ opacity:.3;} }
+  @keyframes riseIn { from{ opacity:0; transform:translateY(24px);} to{ opacity:1; transform:translateY(0);} }
+</style>
+</helmet>
+
+<!-- NAV -->
+<div style="position:sticky; top:0; z-index:50; display:flex; justify-content:space-between; align-items:center; padding:26px 7vw; background:rgba(10,8,18,0.85); backdrop-filter:blur(16px); border-bottom:1px solid rgba(167,139,250,0.1);">
+  <div style="display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:0.05em; font-size:14px;">
+    <span style="font-family:'JetBrains Mono',monospace; color:#a78bfa;">&lt;/&gt;</span> FORTES <span style="color:#a78bfa;">DEV</span>
+  </div>
+  <div style="display:flex; gap:28px; align-items:center; font-size:13.5px;">
+    <a href="#sobre" style="color:#a49dc4;" style-hover="color:#fff;">Sobre</a>
+    <a href="#skills" style="color:#a49dc4;" style-hover="color:#fff;">Skills</a>
+    <a href="#projetos" style="color:#a49dc4;" style-hover="color:#fff;">Projetos</a>
+    <a href="#contato" style="color:#ece9f7; border:1px solid rgba(167,139,250,0.35); padding:9px 20px; border-radius:999px;" style-hover="border-color:#a78bfa; color:#fff;">Falar comigo</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<div style="padding:16vh 7vw 12vh; max-width:1180px; margin:0 auto;">
+  <div style="display:inline-flex; align-items:center; gap:9px; font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:0.12em; text-transform:uppercase; color:#a49dc4; animation:riseIn .7s ease both;">
+    <span style="width:6px; height:6px; border-radius:50%; background:#8b5cf6; animation:pulseDot 2s ease-in-out infinite;"></span>
+    Disponível para novos projetos
+  </div>
+  <h1 style="margin:36px 0 0; font-size:clamp(44px,7vw,104px); line-height:1.02; letter-spacing:-0.045em; font-weight:600; animation:riseIn .7s .1s ease both;">
+    Desenvolvo sistemas.<br><span style="color:#a78bfa;">Da interface ao backend.</span>
+  </h1>
+  <div style="display:flex; flex-wrap:wrap; align-items:center; gap:40px; margin-top:56px; animation:riseIn .7s .25s ease both;">
+    <p style="margin:0; max-width:440px; font-size:16px; line-height:1.75; color:#a49dc4;">Emanuel Fortes — Full Stack Developer com visão de produto. Construo soluções que funcionam de ponta a ponta, com foco em resultado.</p>
+    <div style="display:flex; gap:14px;">
+      <a href="#projetos" style="background:#7c5cff; color:#fff; font-weight:600; font-size:14.5px; padding:15px 30px; border-radius:12px;" style-hover="background:#8d70ff; color:#fff;">Ver projetos →</a>
+      <a href="#contato" style="color:#ece9f7; font-size:14.5px; font-weight:500; padding:15px 30px; border-radius:12px; border:1px solid rgba(167,139,250,0.3);" style-hover="border-color:#a78bfa; color:#fff;">Entrar em contato</a>
+    </div>
+  </div>
+  <div style="display:flex; gap:64px; margin-top:12vh; padding-top:40px; border-top:1px solid rgba(167,139,250,0.12); animation:riseIn .7s .4s ease both;">
+    <div><span style="font-size:28px; font-weight:600; letter-spacing:-0.02em;">10+</span><span style="font-size:13px; color:#7d7599; margin-left:12px;">projetos entregues</span></div>
+    <div><span style="font-size:28px; font-weight:600; letter-spacing:-0.02em;">100%</span><span style="font-size:13px; color:#7d7599; margin-left:12px;">full stack</span></div>
+    <div><span style="font-size:28px; font-weight:600; letter-spacing:-0.02em;">PO</span><span style="font-size:13px; color:#7d7599; margin-left:12px;">visão de produto</span></div>
+  </div>
+</div>
+
+<!-- SOBRE -->
+<div id="sobre" style="padding:12vh 7vw; max-width:1180px; margin:0 auto; border-top:1px solid rgba(167,139,250,0.12);">
+  <div style="display:grid; grid-template-columns:200px 1fr; gap:48px; align-items:start;">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:0.16em; color:#a78bfa;">01 / SOBRE</div>
+    <div style="max-width:680px;">
+      <h2 style="margin:0; font-size:clamp(28px,3.2vw,42px); line-height:1.15; letter-spacing:-0.03em; font-weight:600;">Não apenas código: <span style="color:#a78bfa;">soluções completas.</span></h2>
+      <p style="font-size:15.5px; line-height:1.85; color:#a49dc4; margin:28px 0 0;">Sou desenvolvedor Full Stack com experiência na construção de sistemas completos: do banco de dados à interface do usuário. Já trabalhei com sistemas estruturados como CRMs, onde a lógica de negócio é tão importante quanto a linha de código.</p>
+      <p style="font-size:15.5px; line-height:1.85; color:#a49dc4; margin:18px 0 0;">O que me diferencia é a visão de produto: entendo fluxos, processos e usabilidade antes de abrir o editor. Isso acelera decisões, reduz retrabalho e gera entregas que fazem sentido para quem usa.</p>
+      <div style="display:flex; flex-direction:column; gap:0; margin-top:48px; border-top:1px solid rgba(167,139,250,0.12);">
+        <div style="display:grid; grid-template-columns:180px 1fr; gap:24px; padding:22px 0; border-bottom:1px solid rgba(167,139,250,0.12);">
+          <div style="font-weight:600; font-size:15px;">Solução completa</div>
+          <div style="font-size:14px; line-height:1.7; color:#a49dc4;">Do banco de dados à interface final, sem depender de outras pessoas para entregar.</div>
+        </div>
+        <div style="display:grid; grid-template-columns:180px 1fr; gap:24px; padding:22px 0; border-bottom:1px solid rgba(167,139,250,0.12);">
+          <div style="font-weight:600; font-size:15px;">Visão de produto</div>
+          <div style="font-size:14px; line-height:1.7; color:#a49dc4;">Entendo regras de negócio, fluxos e UX antes de escrever a primeira linha.</div>
+        </div>
+        <div style="display:grid; grid-template-columns:180px 1fr; gap:24px; padding:22px 0; border-bottom:1px solid rgba(167,139,250,0.12);">
+          <div style="font-weight:600; font-size:15px;">Código que escala</div>
+          <div style="font-size:14px; line-height:1.7; color:#a49dc4;">Arquitetura limpa, tipagem rigorosa e componentes reutilizáveis desde o início.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<div id="skills" style="padding:12vh 7vw; max-width:1180px; margin:0 auto; border-top:1px solid rgba(167,139,250,0.12);">
+  <div style="display:grid; grid-template-columns:200px 1fr; gap:48px; align-items:start;">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:0.16em; color:#a78bfa;">02 / SKILLS</div>
+    <div>
+      <h2 style="margin:0 0 48px; font-size:clamp(28px,3.2vw,42px); letter-spacing:-0.03em; font-weight:600;">Stack técnico</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:56px;">
+        <sc-for list="{{ skillGroups }}" as="group" hint-placeholder-count="3">
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:#7d7599; padding-bottom:14px; border-bottom:1px solid rgba(167,139,250,0.2);">{{ group.name }}</div>
+            <div style="display:flex; flex-direction:column; margin-top:6px;">
+              <sc-for list="{{ group.items }}" as="sk" hint-placeholder-count="6">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-bottom:1px solid rgba(167,139,250,0.08); font-size:14px;">
+                  <span style="color:#d6d1ea;">{{ sk.name }}</span>
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#a78bfa;">{{ sk.pct }}%</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJETOS -->
+<div id="projetos" style="padding:12vh 7vw; max-width:1180px; margin:0 auto; border-top:1px solid rgba(167,139,250,0.12);">
+  <div style="display:grid; grid-template-columns:200px 1fr; gap:48px; align-items:start;">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:0.16em; color:#a78bfa;">03 / PROJETOS</div>
+    <div>
+      <h2 style="margin:0; font-size:clamp(28px,3.2vw,42px); letter-spacing:-0.03em; font-weight:600;">Soluções que entregam valor</h2>
+      <div style="display:flex; flex-direction:column; margin-top:40px; border-top:1px solid rgba(167,139,250,0.15);">
+        <sc-for list="{{ projects }}" as="p" hint-placeholder-count="3">
+          <a href="#contato" style="display:grid; grid-template-columns:56px 1.1fr 1.6fr auto; gap:32px; align-items:center; padding:34px 0; border-bottom:1px solid rgba(167,139,250,0.15); color:inherit;" style-hover="background:rgba(124,92,255,0.04); color:inherit;">
+            <span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#7d7599;">{{ p.num }}</span>
+            <span>
+              <span style="display:block; font-size:20px; font-weight:600; letter-spacing:-0.02em; color:#ece9f7;">{{ p.nome }}</span>
+              <span style="display:block; font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:#a78bfa; margin-top:8px;">{{ p.tipo }} · {{ p.ano }}</span>
+            </span>
+            <span style="font-size:14px; line-height:1.7; color:#a49dc4;">{{ p.desc }}</span>
+            <span style="font-size:18px; color:#a78bfa;">→</span>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTATO -->
+<div id="contato" style="padding:16vh 7vw; max-width:1180px; margin:0 auto; border-top:1px solid rgba(167,139,250,0.12);">
+  <div style="font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:0.16em; color:#a78bfa;">04 / CONTATO</div>
+  <h2 style="margin:28px 0 0; font-size:clamp(36px,5.5vw,76px); letter-spacing:-0.04em; font-weight:600; line-height:1.02;">Tem um projeto <span style="color:#a78bfa;">em mente?</span></h2>
+  <p style="max-width:460px; margin:26px 0 0; font-size:15.5px; line-height:1.8; color:#a49dc4;">Se você precisa de um desenvolvedor que entende tanto de código quanto de negócio, vamos conversar. Respondo em até 24 horas.</p>
+  <div style="display:flex; flex-wrap:wrap; align-items:center; gap:14px; margin-top:44px;">
+    <a href="https://wa.me/5585992004530" target="_blank" style="background:#7c5cff; color:#fff; font-weight:600; font-size:14.5px; padding:15px 30px; border-radius:12px;" style-hover="background:#8d70ff; color:#fff;">Chamar no WhatsApp</a>
+    <button onClick="{{ copyPhone }}" style="font-family:'JetBrains Mono',monospace; font-size:14px; color:#ece9f7; background:none; border:1px solid rgba(167,139,250,0.3); padding:14px 26px; border-radius:12px; cursor:pointer;" style-hover="border-color:#a78bfa;">(85) 99200-4530 <span style="color:#a78bfa; margin-left:8px;">{{ copyLabel }}</span></button>
+    <a href="https://github.com" target="_blank" style="font-size:14px; color:#a49dc4; padding:14px 10px;" style-hover="color:#fff;">GitHub</a>
+    <a href="https://linkedin.com" target="_blank" style="font-size:14px; color:#a49dc4; padding:14px 10px;" style-hover="color:#fff;">LinkedIn</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div style="border-top:1px solid rgba(167,139,250,0.12); padding:36px 7vw; display:flex; flex-wrap:wrap; justify-content:space-between; gap:16px; font-size:12.5px; color:#7d7599;">
+  <span style="font-family:'JetBrains Mono',monospace; letter-spacing:0.18em;">FORTES DEV · CÓDIGO · SOLUÇÃO · IMPACTO</span>
+  <span>© 2026 Fortes Dev · Desenvolvido com <a href="#">Next.js</a> &amp; <a href="#">Tailwind CSS</a></span>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { copied: false };
+  renderVals() {
+    return {
+      copyLabel: this.state.copied ? '✓' : '⧉',
+      copyPhone: () => {
+        navigator.clipboard && navigator.clipboard.writeText('(85) 99200-4530');
+        this.setState({ copied: true });
+        setTimeout(() => this.setState({ copied: false }), 1800);
+      },
+      skillGroups: [
+        { name: 'Frontend', items: [
+          { name: 'HTML & CSS', pct: 90 }, { name: 'JavaScript (ES6+)', pct: 85 },
+          { name: 'React.js', pct: 80 }, { name: 'Next.js', pct: 75 },
+          { name: 'TypeScript', pct: 72 }, { name: 'Tailwind CSS', pct: 88 },
+          { name: 'UI / UX Principles', pct: 78 } ] },
+        { name: 'Backend', items: [
+          { name: 'Node.js', pct: 80 }, { name: 'REST APIs', pct: 85 },
+          { name: 'PostgreSQL', pct: 75 }, { name: 'MySQL', pct: 72 },
+          { name: 'Autenticação & JWT', pct: 78 }, { name: 'Regras de Negócio', pct: 82 },
+          { name: 'Prisma ORM', pct: 70 } ] },
+        { name: 'Outros', items: [
+          { name: 'Git & GitHub', pct: 85 }, { name: 'Visão de Produto (PO)', pct: 80 },
+          { name: 'Lógica de Programação', pct: 90 }, { name: 'Metodologias Ágeis', pct: 75 },
+          { name: 'Docker (básico)', pct: 55 }, { name: 'Documentação técnica', pct: 78 } ] }
+      ],
+      projects: [
+        { num: '01', tipo: 'Sistema Web', ano: '2026', nome: 'CRM Interno',
+          desc: 'Gestão de clientes com pipeline de vendas, painel administrativo e relatórios em tempo real.' },
+        { num: '02', tipo: 'Dashboard', ano: '2026', nome: 'Painel de Métricas',
+          desc: 'Visualização de dados em tempo real, filtros dinâmicos e exportação de relatórios.' },
+        { num: '03', tipo: 'Aplicação Web', ano: '2026', nome: 'Sistema de Agendamento',
+          desc: 'Agendamento online com confirmação automática e gestão de horários.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

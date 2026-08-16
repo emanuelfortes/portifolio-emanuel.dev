@@ -1,23 +1,21 @@
-import Navbar from "@/components/Navbar";
+import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import About from "@/components/About";
+import Bento from "@/components/Bento";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
-import Contact from "@/components/Contact";
+import ContactCTA from "@/components/ContactCTA";
 import Footer from "@/components/Footer";
-import AOSInit from "@/components/AOSInit";
 
 export default function Home() {
   return (
     <>
-      <AOSInit />
-      <Navbar />
+      <Header />
       <main>
         <Hero />
-        <About />
+        <Bento />
         <Skills />
         <Projects />
-        <Contact />
+        <ContactCTA />
       </main>
       <Footer />
     </>
