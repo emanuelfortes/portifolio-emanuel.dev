@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
 const vertexShader = `
@@ -68,42 +68,35 @@ const fragmentShader = `
     gl_FragColor = vec4(col, 1.0);
   }`;
 
+const clamp = (v: number, min: number, max: number) =>
+  Math.min(max, Math.max(min, v));
+
+/** Graus de inclinação do aparelho para deslocamento máximo da câmera. */
+const TILT_MAX = 28;
+
 export default function WaveBackground() {
   const hostRef = useRef<HTMLDivElement>(null);
+  /* Alvo da câmera (-1..1). Mouse, giroscópio e scroll escrevem aqui;
+     o loop de render só lê. */
+  const alvo = useRef({ tx: 0, ty: 0 });
+  /* Preenchido pelo efeito de controles quando o iOS exige permissão. */
+  const pedirRef = useRef<null | (() => void)>(null);
+  const [precisaPermissao, setPrecisaPermissao] = useState(false);
 
+  /* ---------- cena three.js ---------- */
   useEffect(() => {
     const host = hostRef.current;
     if (!host) return;
 
-    // Alvo e posição suavizada do deslocamento de câmera pelo mouse
-    let tx = 0;
-    let ty = 0;
+    // Posição suavizada que persegue o alvo
     let mx = 0;
     let my = 0;
-
-    const onMove = (e: MouseEvent) => {
-      const r = host.getBoundingClientRect();
-      if (
-        e.clientX >= r.left &&
-        e.clientX <= r.right &&
-        e.clientY >= r.top &&
-        e.clientY <= r.bottom
-      ) {
-        tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
-        ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
-      } else {
-        tx = 0;
-        ty = 0;
-      }
-    };
-    document.addEventListener("mousemove", onMove);
 
     let renderer: THREE.WebGLRenderer;
     try {
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     } catch {
       // Sem WebGL: mantém apenas o fundo sólido do card
-      document.removeEventListener("mousemove", onMove);
       return;
     }
 
@@ -151,9 +144,9 @@ export default function WaveBackground() {
     const draw = () => {
       elapsed += Math.min(clock.getDelta(), 0.05);
       uniforms.uTime.value = elapsed;
-      // suaviza e desloca a câmera com o mouse
-      mx += (tx - mx) * 0.05;
-      my += (ty - my) * 0.05;
+      // suaviza e desloca a câmera na direção do alvo (mouse, giroscópio ou scroll)
+      mx += (alvo.current.tx - mx) * 0.05;
+      my += (alvo.current.ty - my) * 0.05;
       camera.position.x = mx * 4.5;
       camera.position.y = 1.6 - my * 0.7;
       camera.lookAt(mx * 1.2, 0.2, 0);
@@ -192,7 +185,6 @@ export default function WaveBackground() {
       return () => {
         io.disconnect();
         cancelAnimationFrame(raf);
-        document.removeEventListener("mousemove", onMove);
         ro.disconnect();
         geo.dispose();
         mat.dispose();
@@ -203,7 +195,6 @@ export default function WaveBackground() {
 
     return () => {
       cancelAnimationFrame(raf);
-      document.removeEventListener("mousemove", onMove);
       ro.disconnect();
       geo.dispose();
       mat.dispose();
@@ -212,11 +203,131 @@ export default function WaveBackground() {
     };
   }, []);
 
+  /* ---------- controles: mouse no desktop, inclinação no celular ---------- */
+  useEffect(() => {
+    const host = hostRef.current;
+    if (!host) return;
+    const t = alvo.current;
+
+    // Ponteiro fino = mouse/trackpad. Celular cai no ramo de inclinação.
+    const temMouse = window.matchMedia("(pointer: fine)").matches;
+
+    /* --- desktop: segue o cursor dentro do card --- */
+    const onMove = (e: MouseEvent) => {
+      const r = host.getBoundingClientRect();
+      const dentro =
+        e.clientX >= r.left &&
+        e.clientX <= r.right &&
+        e.clientY >= r.top &&
+        e.clientY <= r.bottom;
+      t.tx = dentro ? ((e.clientX - r.left) / r.width - 0.5) * 2 : 0;
+      t.ty = dentro ? ((e.clientY - r.top) / r.height - 0.5) * 2 : 0;
+    };
+
+    /* --- celular: inclinação do aparelho --- */
+    let recebeuGiro = false;
+    let base: { g: number; b: number } | null = null;
+
+    const onOrient = (e: DeviceOrientationEvent) => {
+      if (e.gamma == null || e.beta == null) return;
+      recebeuGiro = true;
+      // A primeira leitura vira o "neutro", então funciona em qualquer
+      // ângulo em que a pessoa esteja segurando o aparelho.
+      if (!base) {
+        base = { g: e.gamma, b: e.beta };
+        return;
+      }
+      const dg = e.gamma - base.g; // inclinar para os lados
+      const db = e.beta - base.b; // inclinar para frente/trás
+
+      // gamma/beta são relativos ao aparelho: remapeia conforme a tela girou
+      const ang = window.screen?.orientation?.angle ?? 0;
+      let x = dg;
+      let y = db;
+      if (ang === 90) { x = -db; y = dg; }
+      else if (ang === 270 || ang === -90) { x = db; y = -dg; }
+      else if (ang === 180) { x = -dg; y = -db; }
+
+      t.tx = clamp(x / TILT_MAX, -1, 1);
+      t.ty = clamp(y / TILT_MAX, -1, 1);
+    };
+
+    /* --- fallback: sem giroscópio, a onda acompanha o scroll --- */
+    const onScroll = () => {
+      if (recebeuGiro) return; // giroscópio tem prioridade
+      const r = host.getBoundingClientRect();
+      const centroCard = r.top + r.height / 2;
+      const centroTela = window.innerHeight / 2;
+      t.ty = clamp((centroCard - centroTela) / centroTela, -1, 1);
+    };
+
+    const DOE = window.DeviceOrientationEvent as unknown as {
+      requestPermission?: () => Promise<PermissionState | string>;
+    };
+    const exigePermissao = typeof DOE?.requestPermission === "function";
+
+    if (temMouse) {
+      document.addEventListener("mousemove", onMove);
+    } else {
+      // iOS 13+ só entrega os eventos após permissão vinda de um toque
+      if (exigePermissao) {
+        setPrecisaPermissao(true);
+        pedirRef.current = async () => {
+          try {
+            const r = await DOE.requestPermission!();
+            if (r === "granted") {
+              window.addEventListener("deviceorientation", onOrient);
+              setPrecisaPermissao(false);
+            }
+          } catch {
+            /* recusado: segue com o fallback de scroll */
+          }
+        };
+      } else {
+        window.addEventListener("deviceorientation", onOrient);
+      }
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    }
+
+    return () => {
+      document.removeEventListener("mousemove", onMove);
+      window.removeEventListener("deviceorientation", onOrient);
+      window.removeEventListener("scroll", onScroll);
+      pedirRef.current = null;
+    };
+  }, []);
+
   return (
-    <div
-      ref={hostRef}
-      aria-hidden="true"
-      className="pointer-events-none absolute inset-0 overflow-hidden"
-    />
+    <>
+      <div
+        ref={hostRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      />
+
+      {/* Só aparece no iOS, que exige um toque para liberar o giroscópio.
+          z-20 para ficar acima do véu, que vem depois no DOM. */}
+      {precisaPermissao && (
+        <button
+          type="button"
+          onClick={() => pedirRef.current?.()}
+          className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-lilac/25 bg-ink-cta/70 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.1em] text-txt-muted backdrop-blur-sm transition-colors hover:border-lilac hover:text-txt"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            className="h-3 w-3"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={1.8}
+            aria-hidden="true"
+          >
+            <rect x="7" y="2" width="10" height="20" rx="2" />
+            <path d="M2 12h2M20 12h2" strokeLinecap="round" />
+          </svg>
+          Incline para mover
+        </button>
+      )}
+    </>
   );
 }
