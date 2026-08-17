@@ -71,8 +71,9 @@ const fragmentShader = `
 const clamp = (v: number, min: number, max: number) =>
   Math.min(max, Math.max(min, v));
 
-/** Graus de inclinação do aparelho para deslocamento máximo da câmera. */
-const TILT_MAX = 28;
+/** Graus de inclinação para deslocamento máximo. Baixo de propósito: a ideia
+ *  é reagir a um movimento leve do pulso, não exigir virar o aparelho. */
+const TILT_MAX = 14;
 
 export default function WaveBackground() {
   const hostRef = useRef<HTMLDivElement>(null);
@@ -82,6 +83,7 @@ export default function WaveBackground() {
   /* Preenchido pelo efeito de controles quando o iOS exige permissão. */
   const pedirRef = useRef<null | (() => void)>(null);
   const [precisaPermissao, setPrecisaPermissao] = useState(false);
+  const [aviso, setAviso] = useState<string | null>(null);
 
   /* ---------- cena three.js ---------- */
   useEffect(() => {
@@ -266,23 +268,42 @@ export default function WaveBackground() {
     };
     const exigePermissao = typeof DOE?.requestPermission === "function";
 
+    let limparCard: (() => void) | null = null;
+
     if (temMouse) {
       document.addEventListener("mousemove", onMove);
     } else {
       // iOS 13+ só entrega os eventos após permissão vinda de um toque
       if (exigePermissao) {
         setPrecisaPermissao(true);
-        pedirRef.current = async () => {
+
+        const pedir = async () => {
           try {
             const r = await DOE.requestPermission!();
             if (r === "granted") {
               window.addEventListener("deviceorientation", onOrient);
               setPrecisaPermissao(false);
+              setAviso(null);
+              limparCard?.();
+            } else {
+              setAviso("Permissão negada para o sensor de movimento.");
             }
           } catch {
-            /* recusado: segue com o fallback de scroll */
+            setAviso("Este navegador não liberou o sensor de movimento.");
           }
         };
+        pedirRef.current = pedir;
+
+        /* O botão sozinho passa despercebido, então qualquer toque no card
+           também dispara o pedido — o iOS exige que venha de um gesto.
+           Cliques em links/botões são ignorados para não atrapalhar os CTAs. */
+        const card = host.parentElement;
+        const aoTocar = (e: Event) => {
+          if ((e.target as HTMLElement)?.closest("a,button")) return;
+          pedir();
+        };
+        card?.addEventListener("click", aoTocar);
+        limparCard = () => card?.removeEventListener("click", aoTocar);
       } else {
         window.addEventListener("deviceorientation", onOrient);
       }
@@ -294,6 +315,7 @@ export default function WaveBackground() {
       document.removeEventListener("mousemove", onMove);
       window.removeEventListener("deviceorientation", onOrient);
       window.removeEventListener("scroll", onScroll);
+      limparCard?.();
       pedirRef.current = null;
     };
   }, []);
@@ -312,21 +334,27 @@ export default function WaveBackground() {
         <button
           type="button"
           onClick={() => pedirRef.current?.()}
-          className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-lilac/25 bg-ink-cta/70 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.1em] text-txt-muted backdrop-blur-sm transition-colors hover:border-lilac hover:text-txt"
+          className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full border border-lilac/40 bg-ink-cta/85 px-4 py-2.5 text-xs font-semibold text-txt shadow-nav backdrop-blur-sm active:scale-95"
         >
           <svg
             viewBox="0 0 24 24"
-            className="h-3 w-3"
+            className="h-4 w-4 text-lilac"
             fill="none"
             stroke="currentColor"
             strokeWidth={1.8}
             aria-hidden="true"
           >
             <rect x="7" y="2" width="10" height="20" rx="2" />
-            <path d="M2 12h2M20 12h2" strokeLinecap="round" />
+            <path d="M2 12h2M20 12h2M4.5 8.5 2.5 12l2 3.5M19.5 8.5l2 3.5-2 3.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          Incline para mover
+          Toque e incline o celular
         </button>
+      )}
+
+      {aviso && (
+        <p className="absolute bottom-5 left-1/2 z-20 w-[85%] -translate-x-1/2 text-center text-[11px] leading-snug text-txt-muted">
+          {aviso}
+        </p>
       )}
     </>
   );
