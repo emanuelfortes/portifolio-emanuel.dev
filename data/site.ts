@@ -32,6 +32,6 @@ export const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURICom
 /** Link cru, sem mensagem, usado no header e no rodapé. */
 export const whatsappBare = `https://wa.me/${whatsappNumber}`;
 
-/** Perfis sociais. TODO: trocar pelos perfis reais. */
-export const githubUrl = "https://github.com";
-export const linkedinUrl = "https://linkedin.com";
+/** Perfis sociais. */
+export const githubUrl = "https://github.com/emanuelfortes";
+export const linkedinUrl = "https://www.linkedin.com/in/emanuel-fortes/";

@@ -2,7 +2,7 @@ import CodeWindow from "./CodeWindow";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden px-[5vw] pb-[110px] pt-[150px]">
+    <section className="relative overflow-hidden pb-[110px] pt-[150px]">
       {/* Aurora de fundo: três elipses borradas em movimento lento */}
       <div className="pointer-events-none absolute inset-y-[-20%] inset-x-[-10%]">
         <div
@@ -28,7 +28,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className="relative mx-auto grid max-w-[1200px] grid-cols-[minmax(300px,1.15fr)_minmax(280px,1fr)] items-center gap-14 max-[900px]:grid-cols-1">
+      <div className="container-page relative grid grid-cols-[minmax(300px,1.15fr)_minmax(280px,1fr)] items-center gap-14 max-[900px]:grid-cols-1">
         <div>
           {/* Badges */}
           <div className="flex animate-rise-in gap-2">

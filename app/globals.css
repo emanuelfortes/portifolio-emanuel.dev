@@ -48,11 +48,18 @@
 }
 
 @layer components {
-  /* Container padrão: 1200px com respiro lateral de 5vw */
+  /**
+   * Container padrão de todas as seções.
+   *
+   * O padding fica DENTRO do max-width, então ele desconta da largura útil:
+   * com 1200px + 5vw fixo, uma tela de 1920px entregava só ~1008px de conteúdo.
+   * O clamp trava o respiro lateral entre 24px e 56px — assim o padding não
+   * cresce indefinidamente em telas grandes e não sufoca no celular.
+   */
   .container-page {
-    max-width: 1200px;
+    max-width: 1360px;
     margin-inline: auto;
-    padding-inline: 5vw;
+    padding-inline: clamp(24px, 4.5vw, 56px);
   }
 }
 
