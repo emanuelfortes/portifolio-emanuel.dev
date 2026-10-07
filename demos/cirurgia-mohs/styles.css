@@ -1,0 +1,428 @@
+@config "./tailwind.config.ts";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * globals.css do portal Cirurgia de Mohs.
+ *
+ * O original é Tailwind 4: `@import "tailwindcss"`, o CSS do AOS (aqui
+ * importado em components/AosInit.tsx) e os tokens num bloco @theme. No
+ * Tailwind 3 os tokens das classes estão em tailwind.config.ts; as variáveis
+ * CSS que o @theme também gerava (usadas abaixo e no SVG do infográfico)
+ * ficam declaradas aqui. As de fonte vão na div raiz da réplica (.mohs-root),
+ * onde o next/font/local define --font-bodoni e --font-montserrat.
+ */
+:root,
+.mohs-root {
+  --color-navy-950: #161c2b;
+  --color-navy-900: #1d2436;
+  --color-navy-800: #252d42;
+  --color-navy-700: #2f3a55;
+  --color-navy-600: #3d4a6b;
+  --color-navy-500: #55628a;
+  --color-navy-400: #7d88aa;
+  --color-navy-300: #a9b1c8;
+  --color-navy-200: #d0d5e2;
+  --color-navy-100: #e7eaf1;
+  --color-navy-50: #f2f4f8;
+
+  --color-paper: #fbfbfb;
+  --color-paper-2: #f4f4f5;
+  --color-ink: #1d2436;
+  --color-ink-muted: #5b6478;
+  --color-line: #e3e5ea;
+
+  --color-accent-600: #b58a3c;
+  --color-accent-500: #c9a45c;
+  --color-accent-100: #f6efe0;
+
+  --color-whatsapp: #25d366;
+  --color-whatsapp-dark: #128c7e;
+
+  --color-navy: var(--color-navy-800);
+  --color-muted: var(--color-navy-500);
+  --color-gold: var(--color-accent-600);
+  --color-teal: var(--color-whatsapp-dark);
+
+  --font-display: var(--font-bodoni), "Bodoni Moda", "Didot", Georgia, serif;
+  --font-sans: var(--font-montserrat), "Montserrat", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* O <body> fica no layout raiz das demos; a fonte vai na div raiz da réplica. */
+.mohs-root {
+  font-family: var(--font-sans);
+}
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem; /* altura do cabeçalho compacto + respiro */
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.005em;
+}
+
+/* Vocabulário do layout editorial (docs/HANDOFF.md §1) */
+@layer components {
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+  .action-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-teal);
+    text-underline-offset: 3px;
+  }
+  .action-link:hover { text-decoration: underline; }
+}
+
+/* Tipografia do conteúdo editorial (páginas pilares, regionais, técnicas) */
+.prose-mohs {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: var(--color-ink);
+}
+.prose-mohs :where(p, ul, ol, blockquote, .table-wrap, h4, hr, pre) { margin-top: 1.25rem; }
+.prose-mohs :where(li > p) { margin-top: 0; }
+.prose-mohs h2 {
+  font-size: clamp(1.6rem, 2.4vw, 2rem);
+  line-height: 1.2;
+  margin-top: 3rem;
+  color: var(--color-navy-800);
+}
+.prose-mohs h3 {
+  font-size: 1.3rem;
+  line-height: 1.3;
+  margin-top: 2.25rem;
+  color: var(--color-navy-800);
+}
+.prose-mohs h4 {
+  font-weight: 600;
+  margin-top: 1.75rem;
+}
+.prose-mohs p { max-width: 80ch; }
+.prose-mohs a:not(:where(.not-prose, .not-prose *)) {
+  color: var(--color-navy-700);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent-500);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+  transition: color .15s ease;
+}
+.prose-mohs a:not(:where(.not-prose, .not-prose *)):hover { color: var(--color-accent-600); }
+.prose-mohs strong { font-weight: 600; color: var(--color-navy-900); }
+.prose-mohs ul, .prose-mohs ol {
+  padding-left: 1.4rem;
+  max-width: 80ch;
+}
+.prose-mohs ul { list-style: disc; }
+.prose-mohs ol { list-style: decimal; }
+.prose-mohs li + li { margin-top: .5rem; }
+.prose-mohs li::marker { color: var(--color-accent-600); }
+.prose-mohs blockquote {
+  border-left: 3px solid var(--color-accent-500);
+  padding: .75rem 1.25rem;
+  background: var(--color-navy-50);
+  border-radius: 0 .5rem .5rem 0;
+  color: var(--color-navy-700);
+}
+.prose-mohs hr { border-color: var(--color-line); margin: 3rem 0; }
+.prose-mohs .table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-line);
+  border-radius: .75rem;
+  background: #fff;
+}
+.prose-mohs table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .95rem;
+  line-height: 1.5;
+}
+.prose-mohs th, .prose-mohs td {
+  padding: .75rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--color-line);
+}
+.prose-mohs th {
+  background: var(--color-navy-800);
+  color: var(--color-paper);
+  font-weight: 600;
+  font-family: var(--font-sans);
+}
+.prose-mohs tr:last-child td { border-bottom: 0; }
+.prose-mohs thead tr:not(:has(th:not(:empty))) { display: none; }
+.prose-mohs tbody tr:nth-child(even) td { background: var(--color-navy-50); }
+.prose-mohs code {
+  font-size: .9em;
+  background: var(--color-navy-100);
+  padding: .1em .35em;
+  border-radius: .25rem;
+}
+.prose-mohs sup a { text-decoration: none; }
+
+/* Conteúdo técnico: um pouco mais denso */
+.prose-tecnico { font-size: 1rem; line-height: 1.75; }
+
+/* Componentes dentro do fluxo editorial não herdam a tipografia de títulos */
+.prose-mohs .not-prose :is(h2, h3, h4) { margin-top: 0; }
+.prose-mohs details summary h3,
+.prose-editorial details summary h3 {
+  margin-top: 0;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+.prose-mohs details p, .prose-editorial details p { max-width: none; }
+
+/* Prosa dos artigos do blog (docs/HANDOFF.md §5.3). Fica na camada de
+   componentes para que utilitários Tailwind possam sobrescrevê-la. */
+@layer components {
+  .prose-editorial {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--color-ink-muted);
+  }
+  .prose-editorial :where(p, ul, ol, .table-wrap, h4, hr, pre) { margin-top: 18px; }
+  .prose-editorial :where(li > p) { margin-top: 0; }
+  .prose-editorial h2 {
+    font-size: 2rem;
+    line-height: 1.15;
+    color: var(--color-navy);
+  }
+  .prose-editorial h3 {
+    font-size: 1.375rem;
+    line-height: 1.3;
+    margin-top: 24px;
+    color: var(--color-navy);
+  }
+  .prose-editorial h4 {
+    font-weight: 600;
+    margin-top: 24px;
+    color: var(--color-navy);
+  }
+  /* A partir do 2º H2: regra fina navy acima da seção */
+  .prose-editorial > section ~ section {
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 1px solid var(--color-navy);
+  }
+  .prose-editorial p { max-width: 72ch; }
+  .prose-editorial a:not(:where(.not-prose, .not-prose *)) {
+    color: var(--color-navy);
+    text-decoration: underline;
+    text-decoration-color: var(--color-gold);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1.5px;
+  }
+  .prose-editorial a:not(:where(.not-prose, .not-prose *)):hover { color: var(--color-gold); }
+  .prose-editorial strong { font-weight: 600; color: var(--color-navy); }
+  .prose-editorial ul, .prose-editorial ol {
+    padding-left: 1.4rem;
+    max-width: 72ch;
+  }
+  .prose-editorial ul { list-style: disc; }
+  .prose-editorial ol { list-style: decimal; }
+  .prose-editorial li + li { margin-top: .5rem; }
+  .prose-editorial li::marker { color: var(--color-gold); }
+  .prose-editorial blockquote {
+    margin: 40px 0;
+    padding: 8px 0 8px 28px;
+    border-left: 3px solid var(--color-gold);
+    font-family: var(--font-display);
+    font-size: 1.625rem;
+    line-height: 1.35;
+    color: var(--color-navy);
+  }
+  .prose-editorial blockquote p { max-width: none; margin-top: 0; }
+  .prose-editorial blockquote strong { font-weight: 500; }
+  .prose-editorial hr { border-color: var(--color-line); margin: 40px 0; }
+  .prose-editorial code {
+    font-size: .9em;
+    background: var(--color-navy-100);
+    padding: .1em .35em;
+  }
+  .prose-editorial sup a { text-decoration: none; }
+  .prose-editorial .not-prose :is(h2, h3, h4) { margin-top: 0; }
+
+  /* Tabela editorial: regra forte no topo, cabeçalho em caixa alta, 1ª coluna em display */
+  .prose-editorial .table-wrap { overflow-x: auto; border-top: 2px solid var(--color-navy); }
+  .prose-editorial table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .prose-editorial th {
+    padding: 12px 16px 12px 0;
+    text-align: left;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-navy);
+    border-bottom: 1px solid var(--color-navy);
+  }
+  .prose-editorial td {
+    padding: 14px 16px 14px 0;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .prose-editorial td:first-child {
+    font-family: var(--font-display);
+    font-size: 15px;
+    color: var(--color-navy);
+  }
+  .prose-editorial td:first-child strong { font-weight: 500; }
+  .prose-editorial tr:last-child td { border-bottom: 1px solid var(--color-navy); }
+  .prose-editorial thead tr:not(:has(th:not(:empty))) { display: none; }
+
+  /* No celular a tabela vira lista: cada linha é um bloco e cada célula
+     recebe o nome da coluna (data-label, gerado em Markdown.tsx) */
+  @media (max-width: 767px) {
+    .prose-editorial .table-wrap { overflow: visible; }
+    .prose-editorial table,
+    .prose-editorial tbody,
+    .prose-editorial tr,
+    .prose-editorial td { display: block; }
+    .prose-editorial thead { display: none; }
+    .prose-editorial tr { padding: 14px 0; border-bottom: 1px solid var(--color-line); }
+    .prose-editorial tr:last-child { border-bottom: 1px solid var(--color-navy); }
+    .prose-editorial td { padding: 2px 0; border: 0; font-size: 12px; }
+    .prose-editorial tr:last-child td { border-bottom: 0; }
+    .prose-editorial td:first-child { font-size: 16px; padding-bottom: 6px; }
+    .prose-editorial td:not(:first-child)[data-label]::before {
+      content: attr(data-label) ": ";
+      font-weight: 600;
+      color: var(--color-navy);
+    }
+    .prose-editorial td:last-child { font-weight: 600; color: var(--color-navy); }
+  }
+
+  /* Capitulares */
+  .dropcap > div:first-of-type > p:first-of-type::first-letter {
+    float: left;
+    font-family: var(--font-display);
+    font-size: 56px;
+    line-height: .8;
+    padding: 8px 10px 0 0;
+    color: var(--color-navy);
+  }
+  .dropcap-sm::first-letter {
+    float: left;
+    font-family: var(--font-display);
+    font-size: 40px;
+    line-height: .8;
+    padding: 6px 8px 0 0;
+    color: var(--color-navy);
+  }
+}
+
+/* Detalhes (FAQ e "Neste artigo" no celular) */
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+.faq-plus { display: inline-block; transition: transform .25s ease; }
+details[open] .faq-plus { transform: rotate(45deg); }
+
+/* Abertura e fechamento suaves das perguntas, em CSS puro: o <details> continua
+   nativo (funciona sem JavaScript e a resposta segue no HTML para o Google).
+   Onde o navegador não entender ::details-content, abre seco como antes. */
+:root { interpolate-size: allow-keywords; }
+.disclosure::details-content {
+  block-size: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    block-size .3s ease,
+    opacity .25s ease,
+    content-visibility .3s allow-discrete;
+  transition-behavior: allow-discrete;
+}
+.disclosure[open]::details-content {
+  block-size: auto;
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .faq-plus,
+  .disclosure::details-content { transition: none; }
+}
+
+/* Espaço reservado para imagem (docs/HANDOFF.md §2.5): fundo liso, borda
+   tracejada, legenda embaixo. Em miniaturas pequenas a legenda some. */
+.img-placeholder {
+  background-color: var(--color-navy-50);
+  border: 1px dashed var(--color-navy-300);
+  container-type: inline-size;
+}
+.img-placeholder--dark {
+  background-color: var(--color-navy-700);
+  border-color: var(--color-navy-500);
+}
+@container (max-width: 179px) {
+  .img-placeholder__body { display: none; }
+}
+
+/* Hero da home: a segunda foto entra e sai por cima da primeira em ciclo */
+.hero-crossfade { animation: hero-crossfade 12s ease-in-out infinite; }
+@keyframes hero-crossfade {
+  0%, 40% { opacity: 0; }
+  50%, 90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Fundo do hero com 2 ou 3 fotos. A primeira fica sempre embaixo; cada uma das
+   outras entra por cima com 1,5s de transição, fica ~4,5s e sai. Ciclo de 18s:
+   com `animation-delay: 6s` na terceira, uma sai enquanto a outra entra. */
+.hero-fundo { animation: hero-fundo 18s ease-in-out infinite; opacity: 0; }
+@keyframes hero-fundo {
+  0%, 33.333% { opacity: 0; }
+  41.667%, 66.667% { opacity: 1; }
+  75%, 100% { opacity: 0; }
+}
+
+/* Reduz movimento para quem prefere */
+@media (prefers-reduced-motion: reduce) {
+  [data-aos] { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .hero-crossfade { animation: none; opacity: 0; }
+  .hero-fundo { animation: none; opacity: 0; }
+}
+
+/* Perguntas do FAQ fora de um bloco de prosa (ex.: coluna da home): também em sem-serifa */
+.faq details summary h3 { font-family: var(--font-sans); }
+
+/* Hero da home: os textos surgem em sequência, subindo levemente.
+   CSS puro (não depende de JS nem do AOS), então anima já no primeiro quadro. */
+.hero-rise { animation: hero-rise .9s cubic-bezier(.22, 1, .36, 1) both; }
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise { animation: none; }
+}

@@ -1,0 +1,435 @@
+@config "./tailwind.config.ts";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Diferenças do preflight do Tailwind 4 para o 3, que as telas pressupõem. */
+@layer base {
+  input,
+  select,
+  textarea,
+  button {
+    background-color: transparent;
+    border-radius: 0;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    opacity: 1;
+    color: color-mix(in oklab, currentColor 50%, transparent);
+  }
+}
+
+/**
+ * Tema da ACEV: o cinza-preto do Notion, texto branco, ouro no destaque.
+ *
+ * A escala `ink` vai do fundo (50) ao texto mais forte (950) — "fundo" é
+ * escuro e "texto" é claro. Manter o sentido da escala é o que faz a interface
+ * inteira acompanhar uma virada de tema sem reescrever cada `text-ink-500`
+ * espalhado pelas telas.
+ *
+ * Os valores vêm do modo escuro do Notion: página em #191919, barra lateral e
+ * cartões em #202020, menus em #252525, divisórias em #373737. Não há verde em
+ * lugar nenhum (o tema foi verde até 17/09/2026); o relevo vem de o cartão
+ * subir alguns pontos sobre o fundo e da borda `ink-200`, nunca de sombra.
+ *
+ * Todo texto é branco. Os níveis secundários (400 a 600) são branco com
+ * transparência, como o próprio Notion faz: continuam brancos sobre qualquer
+ * fundo e ainda assim guardam a hierarquia entre título, corpo e rótulo miúdo.
+ *
+ * `brand` é o ouro, e continua igual: é a cor da marca, não do tema.
+ */
+:root {
+  /* Superfícies escuras: `pine` é o nome histórico, a cor é o cinza do Notion */
+  --color-pine-950: #111111;
+  --color-pine-900: #202020;
+  --color-pine-800: #252525;
+  --color-pine-700: #2c2c2c;
+  --color-pine-600: #373737;
+
+  --color-gold-200: #fbe7b4;
+  --color-gold-300: #f7d88c;
+  --color-gold-500: #c3993a;
+
+  /**
+   * Superfície dos cartões: alguns pontos acima do fundo, nunca muito.
+   * A separação vem daqui e da borda `ink-200`, não de sombra — sombra
+   * praticamente não se enxerga sobre fundo escuro.
+   */
+  --color-surface: #202020;
+
+  --color-ink-50: #232323;
+  --color-ink-100: #2a2a2a;
+  --color-ink-200: #373737;
+  --color-ink-300: #4a4a4a;
+  --color-ink-400: rgb(255 255 255 / 0.62);
+  --color-ink-500: rgb(255 255 255 / 0.78);
+  --color-ink-600: rgb(255 255 255 / 0.9);
+  --color-ink-700: #ffffff;
+  --color-ink-800: #ffffff;
+  --color-ink-900: #ffffff;
+  --color-ink-950: #ffffff;
+
+  /* Fundo dos estados "selecionado": um cinza levemente aquecido pelo ouro. */
+  --color-brand-50: #2a2622;
+  --color-brand-100: #38322a;
+  --color-brand-500: #f7d88c;
+  --color-brand-600: #c3993a;
+  /* Mais claro que o 600 de propósito: no escuro, hover é clarear. */
+  --color-brand-700: #fbe7b4;
+
+  /**
+   * A cor das sobreposições sutis — `bg-overlay/5`, `ring-overlay/10`.
+   *
+   * Existe porque `bg-white/5` só funciona no escuro: sobre cartão branco,
+   * branco a 5% é invisível. Sendo um token, ele vira preto no tema claro e
+   * a mesma classe continua produzindo o mesmo efeito nos dois.
+   */
+  --color-overlay: #ffffff;
+
+  /**
+   * Os dois fundos do produto, nomeados. Não mudam com o tema — são a
+   * referência fixa a que o tema recorre.
+   */
+  --fundo-escuro: #191919;
+  --fundo-claro: #ffffff;
+
+  /**
+   * O desenho grande no canto dos cartões de bloco.
+   *
+   * O ícone usa o fundo do tema OPOSTO: no escuro ele é o branco do tema
+   * claro, no claro é o cinza-preto do tema escuro. Sai de graça o contraste
+   * máximo possível dentro da paleta, sem introduzir cor nenhuma que já não
+   * seja do produto.
+   *
+   * Doze cores diferentes, que existiram aqui antes, deixavam a grade
+   * parecendo mostruário — e a identidade do bloco vem do desenho, não do tom.
+   */
+  --color-icone: var(--fundo-claro);
+
+  /* Paradas do gradiente do fundo. Trocadas no tema claro (ver abaixo). */
+  /* O Notion é chapado; o brilho fica só como insinuação, quase invisível. */
+  --bg-brilho: #202020;
+  --bg-1: var(--fundo-escuro);
+  --bg-2: #191919;
+  --bg-3: #171717;
+
+  /**
+   * O véu sobre o papel de parede, na cor de base DESTE tema.
+   *
+   * Em canais soltos porque a opacidade vem separada, escolhida pela pessoa:
+   * `rgb(var(--bg-veu-rgb) / var(--bg-veu))`. Um hex não se compõe assim.
+   *
+   * `--bg-imagem` fica em `none` como padrão — quem nunca escolheu um fundo
+   * cai aqui, e a camada não pinta nada. O JS a define quando há foto.
+   */
+  --bg-veu-rgb: 25 25 25; /* --fundo-escuro */
+  --bg-veu: 0;
+  --bg-imagem: none;
+  /* Enquadramento da foto. O centro é o padrão do CSS e o que se via antes. */
+  --bg-posicao: 50% 50%;
+
+  /* `--font-body` e `--font-display` vêm do layout da réplica (Manrope e Sora locais). */
+}
+
+/**
+ * O TEMA CLARO.
+ *
+ * O escuro é o padrão e vive no `@theme` acima; aqui só os tokens que mudam.
+ * A escala `ink` inverte de sentido — 50 continua sendo "fundo" e 950 "texto
+ * mais forte", mas agora fundo é claro e texto é escuro. É por isso que a
+ * interface inteira acompanha sem reescrever classe nenhuma.
+ *
+ * O que NÃO muda, e é proposital:
+ *
+ *   `pine-950`  texto sobre o botão dourado e véu dos modais. Precisa ser
+ *               escuro nos dois temas — véu claro não escurece nada, e texto
+ *               claro sobre ouro não se lê.
+ *   `gold-*`    é a marca, não o tema.
+ *
+ * `brand-700` inverte a lógica: no escuro, hover é clarear; no claro, hover é
+ * escurecer. Por isso ele é creme lá e ouro fechado aqui.
+ */
+[data-theme='light'] {
+  --color-surface: #ffffff;
+
+  /* Superfícies elevadas: menus, campos, barra lateral. */
+  --color-pine-900: #f7f7f5;
+  --color-pine-800: #ffffff;
+
+  /* O modo claro do Notion: página branca, barra lateral #f7f7f5, texto #37352f. */
+  --color-ink-50: #f7f7f5;
+  --color-ink-100: #efefed;
+  --color-ink-200: #e3e2e0;
+  --color-ink-300: #cfcecb;
+  --color-ink-400: #8f8d88;
+  --color-ink-500: #6b6965;
+  --color-ink-600: #514f4a;
+  --color-ink-700: #37352f;
+  --color-ink-800: #2f2e2a;
+  --color-ink-900: #26251f;
+  --color-ink-950: #1f1e1b;
+
+  --color-brand-50: #fdf6e4;
+  --color-brand-100: #faecc9;
+  --color-brand-500: #b8892b;
+  --color-brand-600: #c3993a;
+  --color-brand-700: #8f6a1c;
+
+  --color-overlay: #37352f;
+  /* O oposto do escuro: aqui o ícone é o cinza-preto do fundo do tema escuro. */
+  --color-icone: var(--fundo-escuro);
+
+  --bg-brilho: #f1f1ef;
+  --bg-1: var(--fundo-claro);
+  --bg-2: #fbfbfa;
+  --bg-3: #f7f7f5;
+
+  /* O véu inverte junto: aqui ele CLAREIA a foto, para o texto escuro valer. */
+  --bg-veu-rgb: 255 255 255; /* --fundo-claro */
+}
+
+/**
+ * Sora nos títulos, Manrope no resto.
+ *
+ * Fica numa regra de elemento em vez de uma classe utilitária porque o
+ * projeto inteiro já usa `h1`/`h2`/`h3` — assim nenhuma tela precisa ser
+ * tocada para receber a fonte nova.
+ */
+/*
+ * No Tailwind 4 esta regra fica fora de camada e por isso vence as utilitárias
+ * (`tracking-tight` num h1 não pega). O !important reproduz isso no 3.
+ */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display), ui-sans-serif, sans-serif !important;
+  letter-spacing: -0.015em !important;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/**
+ * O gradiente é pintado por um elemento FIXO, não pelo fundo do <html>.
+ *
+ * Ele já esteve no body, depois no <html>, e nos dois casos o iPhone mostrava
+ * uma emenda logo abaixo do relógio: uma tira de cor chapada encostando no
+ * gradiente da página. A causa é que, com a barra de status translúcida, a
+ * caixa do <html> NÃO cobre a área segura — o `background-image` é desenhado
+ * só abaixo dela, e na faixa que sobra aparece o `background-color`.
+ *
+ * Elemento com `position: fixed` e `inset: 0` é posicionado contra a viewport,
+ * que com `viewport-fit=cover` é a tela inteira. É a única superfície que
+ * alcança tanto a faixa do relógio quanto o rodapé, e por isso não há emenda:
+ * é um fundo só.
+ *
+ * `z-index: -1` o põe atrás de tudo. Funciona porque o body não cria contexto
+ * de empilhamento — nada de `transform`, `filter` ou `opacity` nele. Se um dia
+ * criar, este fundo some, e o sintoma vai parecer um bug de cor.
+ *
+ * `background-color` no <html> fica como piso, para não haver um lampejo do
+ * preenchimento padrão do navegador antes do CSS aplicar.
+ */
+html {
+  background-color: var(--bg-2);
+}
+
+/**
+ * O fundo, em quatro camadas empilhadas da frente para trás.
+ *
+ *   1. véu       cor do tema com transparência, por cima da foto
+ *   2. foto      papel de parede da pessoa, quando há um
+ *   3. brilho    o realce do canto superior
+ *   4. gradiente a base da marca
+ *
+ * As camadas 3 e 4 são o padrão de sempre: quem nunca escolheu um fundo tem
+ * `--bg-imagem: none`, e uma camada `none` simplesmente não pinta nada. Por
+ * isso a mesma regra serve aos dois casos, sem uma classe condicional no
+ * <html> que precisaria ser mantida em sincronia com o dado.
+ *
+ * O VÉU É O QUE TORNA A FOTO VIÁVEL. A interface é densa e o texto vive
+ * direto sobre este fundo. Uma foto clara apagaria as letras do tema escuro, e
+ * uma escura apagaria as do claro. Como o véu é pintado na cor do tema
+ * (`--bg-veu-rgb`, trocada junto com o resto da paleta), ele puxa qualquer
+ * imagem para perto da base do tema ativo — a mesma foto serve aos dois, e o
+ * contraste do texto continua de pé.
+ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  /*
+   * O brilho do canto continua, bem mais contido: no escuro ele é insinuação
+   * de luz, não uma mancha clara. Com a intensidade antiga, o topo da página
+   * ficava mais claro que os cartões e invertia a hierarquia.
+   */
+  background-image:
+    linear-gradient(
+      rgb(var(--bg-veu-rgb) / var(--bg-veu)),
+      rgb(var(--bg-veu-rgb) / var(--bg-veu))
+    ),
+    var(--bg-imagem, none),
+    radial-gradient(1100px 760px at 80% -12%, var(--bg-brilho) 0%, transparent 58%),
+    linear-gradient(160deg, var(--bg-1) 0%, var(--bg-2) 48%, var(--bg-3) 100%);
+  /* `cover` só importa para a foto; nas outras a camada já preenche sozinha. */
+  background-size: cover;
+  /**
+   * Uma posição por camada, na mesma ordem de cima.
+   *
+   * `background-position` se aplica a TODAS as camadas quando recebe um valor
+   * só, e o enquadramento é assunto exclusivo da foto. Listar as quatro
+   * mantém véu e gradientes centrados enquanto a imagem se desloca — sem isso,
+   * arrastar o enquadramento levaria junto o brilho do canto, e o realce que
+   * dá profundidade ao tema iria parar num lugar aleatório da tela.
+   */
+  background-position: center, var(--bg-posicao, center), center, center;
+  background-repeat: no-repeat;
+}
+
+/**
+ * Sem fundo aqui: o gradiente subiu para o <html> (ver acima). Deixá-lo
+ * também no body pintaria a mesma coisa duas vezes, e a caixa do body para
+ * antes da área segura — que é justamente o problema que a subida resolveu.
+ */
+body {
+  color: var(--color-ink-800);
+  -webkit-font-smoothing: antialiased;
+  /* O `font-sans antialiased` que o original põe no <body>. */
+  font-family: var(--font-body), ui-sans-serif, -apple-system, 'Segoe UI', sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar discreta nas colunas do kanban */
+.thin-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-ink-200);
+  border-radius: 999px;
+}
+.thin-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/**
+ * Campos de formulário no escuro: o navegador desenha o seletor de data e de
+ * hora com ícone preto, que somem no fundo escuro. `color-scheme: dark` faz o
+ * próprio navegador inverter esses controles.
+ */
+input,
+select,
+textarea {
+  color-scheme: dark;
+}
+
+[data-theme='light'] input,
+[data-theme='light'] select,
+[data-theme='light'] textarea {
+  color-scheme: light;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-in {
+  animation: fade-in 0.16s ease-out;
+}
+
+/* =============================================================================
+ * IMPRESSÃO — o PDF de uma seção do onboarding
+ *
+ * A técnica é `visibility`, e não `display: none`, no que fica de fora. Com
+ * `display`, esconder os ancestrais tiraria o alvo do fluxo junto — ele é
+ * filho deles. Com `visibility`, os ancestrais continuam ocupando lugar e só
+ * o que está marcado volta a aparecer.
+ *
+ * O `position: absolute` no alvo é o que o traz para o alto da folha: sem ele,
+ * o recorte sairia depois de uma primeira página em branco do tamanho de tudo
+ * o que ficou invisível acima.
+ * ========================================================================== */
+
+/*
+ * Celular: campo com letra menor que 16px faz o iPhone AMPLIAR a tela ao
+ * tocar, e não há como impedir sem tirar o zoom de quem precisa dele. A
+ * regra vale para qualquer campo que não use `inputClass`; o `!important`
+ * é para vencer um `text-[13px]` esquecido em algum lugar.
+ */
+@media (max-width: 1023px) {
+  input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='file']),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+@media print {
+  /* O gradiente do tema é camada fixa e cobriria a folha inteira. */
+  body::before {
+    display: none !important;
+  }
+
+  :root[data-imprimindo] body * {
+    visibility: hidden;
+  }
+
+  :root[data-imprimindo] [data-imprimir],
+  :root[data-imprimindo] [data-imprimir] * {
+    visibility: visible;
+  }
+
+  /**
+   * O bloco que só existe para o papel volta a ocupar espaço.
+   *
+   * Ele fica com `hidden` na tela — `display: none` —, e `visibility` sozinha
+   * não o traz de volta: o que está fora do fluxo não tem o que mostrar. Sem
+   * esta regra o PDF do card sairia EM BRANCO, e a causa não apareceria em
+   * lugar nenhum: a tela continua certa, o diálogo abre, e a folha é vazia.
+   */
+  :root[data-imprimindo] [data-imprimir][data-so-impressao] {
+    display: block !important;
+  }
+
+  :root[data-imprimindo] [data-imprimir] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* Moldura de tela não é moldura de documento. */
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+    background: transparent;
+  }
+
+  /* O que só serve para interagir não vai para o papel. */
+  :root[data-imprimindo] [data-imprimir] [data-sem-impressao] {
+    display: none !important;
+  }
+
+  /**
+   * Os blocos coloridos do SWOT e do tom de voz mantêm a cor.
+   *
+   * O navegador descarta fundo por padrão para poupar tinta, e aqui a cor É a
+   * informação: sem ela, "Forças" e "Ameaças" viram quatro caixas iguais e o
+   * quadrante deixa de se ler de relance.
+   */
+  :root[data-imprimindo] [data-imprimir] * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  @page {
+    margin: 16mm;
+  }
+}

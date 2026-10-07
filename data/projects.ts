@@ -38,7 +38,7 @@ export const projects: Project[] = [
   {
     slug: "siga-fibra",
     tag: "Dashboard",
-    title: "Siga Fibra",
+    title: "Siga Fibra · Painel",
     shortDescription:
       "Painel que consolida seis origens de tráfego em uma leitura só, com série diária e campanhas identificadas por UTM.",
     fullDescription:
@@ -142,6 +142,115 @@ export const projects: Project[] = [
       path: "/demo/dr-erico",
       label: "drericodiogenes.com.br",
       secure: true,
+    },
+  },
+
+  {
+    slug: "siga-fibra-site",
+    tag: "Site e vendas",
+    title: "Siga Fibra · Site",
+    shortDescription:
+      "Site de uma provedora de fibra óptica em Fortaleza, com planos, promoções e um checkout que fecha a venda no WhatsApp.",
+    fullDescription:
+      "Site institucional e de vendas da Siga Fibra, com áreas separadas para clientes residenciais e empresariais. Os planos aparecem em carrossel, ao lado da campanha do mês com streaming incluso, do chip móvel, do telefone fixo e do ecossistema de apps. O checkout monta o pedido inteiro no navegador e entrega o resumo pronto para o comercial no WhatsApp.",
+    problem:
+      "A venda de internet passa por várias escolhas de uma vez: velocidade, chip, streaming, telefone fixo e promoção vigente. Explicar tudo isso por mensagem, cliente a cliente, alongava a conversa e abria espaço para erro no pedido.",
+    solution:
+      "Um checkout em que o próprio visitante monta o pedido, vendo o total antes e depois da promoção, e fecha enviando o resumo já formatado para o WhatsApp comercial. Em volta dele, um site que separa residencial de empresarial e apresenta cada produto no seu bloco.",
+    result:
+      "O pedido chega ao comercial completo e no mesmo formato, e a conversa começa pela confirmação, não pela explicação dos planos.",
+    stack: ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS", "AOS", "React PDF"],
+    highlights: [
+      "Checkout que monta plano, chip, streaming e fixo, com totais antes e depois da promoção",
+      "Pedido enviado pronto para o WhatsApp comercial",
+      "Áreas separadas para clientes residenciais e empresariais",
+      "Campanha do mês com streaming incluso e checkout próprio",
+      "Modo escuro e seletor de cidade",
+    ],
+    year: "2026",
+    liveUrl: "https://sigafibra.com",
+    demo: {
+      path: "/demo/siga-fibra-site",
+      label: "sigafibra.com",
+      secure: true,
+    },
+  },
+  {
+    slug: "kanban-cev",
+    tag: "Sistema interno",
+    title: "ACEV · Gestão de demandas",
+    shortDescription:
+      "Plataforma interna de uma agência para distribuir demandas, acompanhar prazos e aprovar o cronograma de conteúdo dos clientes.",
+    fullDescription:
+      "Ferramenta interna de gestão de demandas da agência. Cada demanda tem responsável, ou fica na fila de uma função até alguém assumir, além de prazo, checklist, anexos, comentários e histórico, num kanban com ordenação manual por arrasto. Demandas recorrentes nascem sozinhas a partir de regras de recorrência, e o cronograma de conteúdo distribui peças com dono, data e briefing próprios, com revisão e aprovação.",
+    problem:
+      "O trabalho da agência chegava por canais diferentes e se perdia entre conversas e planilhas: não ficava claro quem estava com cada peça, o que estava atrasado e o que já tinha passado por revisão.",
+    solution:
+      "Um sistema único em que toda demanda tem dono, prazo e estado visíveis no kanban, com fila por função para o que ainda não foi assumido, recorrências que se criam sozinhas e um fluxo de revisão e aprovação para cada peça do cronograma.",
+    result:
+      "A distribuição do trabalho e o acompanhamento de prazos passaram a acontecer num lugar só, com histórico de cada demanda.",
+    stack: [
+      "Next.js 15",
+      "React 19",
+      "TypeScript",
+      "Tailwind CSS 4",
+      "TanStack Query",
+      "dnd-kit",
+      "Hono",
+      "AWS Lambda (SST)",
+      "Drizzle ORM",
+      "PostgreSQL",
+      "Turborepo",
+    ],
+    highlights: [
+      "Kanban com ordenação manual por arrasto e fila por função",
+      "Demandas recorrentes geradas por regra, com antecedência configurável",
+      "Cronograma de conteúdo com dono, briefing, revisão e aprovação por peça",
+      "Calendário da agência com compromissos, feriados e aniversários",
+      "Painel de desempenho da equipe e permissões por função sem deploy",
+    ],
+    year: "2026",
+    demo: {
+      path: "/demo/kanban-cev",
+      label: "acev.site",
+      secure: true,
+    },
+  },
+  {
+    slug: "cirurgia-de-mohs",
+    tag: "Portal editorial",
+    title: "Cirurgia de Mohs",
+    shortDescription:
+      "Portal sobre câncer de pele e cirurgia de Mohs no Nordeste, com 68 páginas geradas a partir de Markdown.",
+    fullDescription:
+      "Portal editorial independente sobre câncer de pele e cirurgia micrográfica de Mohs, voltado a pacientes e a médicos que encaminham pacientes no Nordeste. Cada arquivo Markdown vira uma página estática com o template do seu tipo: pilar, artigo, área médica ou página por estado, com índice lateral e FAQ em acordeão. O layout é editorial, com cabeçalho que compacta ao rolar, infográfico comparando as margens examinadas e tabelas que viram lista no celular.",
+    problem:
+      "Conteúdo médico sobre um procedimento específico precisa cobrir muitas buscas diferentes, por dúvida, por tipo de leitor e por estado, sem que cada página nova vire trabalho de desenvolvimento.",
+    solution:
+      "Um gerador estático em que o conteúdo mora em arquivos Markdown e cada tipo de página tem o seu template. Publicar uma página nova é escrever um arquivo, e o site cuida de layout, índice, FAQ, blog com categorias, sitemaps e dados estruturados.",
+    result:
+      "O portal reúne 68 páginas de conteúdo e um blog com categorias e paginação, todas geradas estaticamente.",
+    stack: [
+      "Next.js 16",
+      "React 19",
+      "TypeScript",
+      "Tailwind CSS 4",
+      "Markdown (remark/rehype)",
+      "AOS",
+      "sharp",
+    ],
+    highlights: [
+      "68 páginas geradas a partir de arquivos Markdown, com template por tipo",
+      "Páginas por estado do Nordeste e área dedicada a médicos",
+      "Infográfico em SVG comparando as margens examinadas",
+      "Tabelas que viram lista no celular, índice lateral e FAQ em acordeão",
+      "Blog com categorias e paginação, sitemaps por seção e dados estruturados",
+    ],
+    year: "2026",
+    demo: {
+      path: "/demo/cirurgia-mohs",
+      label: "Cirurgia de Mohs · portal editorial",
+      secure: false,
     },
   },
 ];

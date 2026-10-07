@@ -1,5 +1,5 @@
 import { projects } from "@/data/projects";
-import ProjectCard from "./ProjectCard";
+import ProjectGrid from "./ProjectGrid";
 
 export default function Projects() {
   return (
@@ -31,11 +31,7 @@ export default function Projects() {
         ampliar e navegar como se estivesse no site.
       </p>
 
-      <div className="relative mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {projects.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
-        ))}
-      </div>
+      <ProjectGrid projects={projects} />
     </section>
   );
 }
