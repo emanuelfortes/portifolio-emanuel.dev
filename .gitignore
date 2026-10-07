@@ -134,3 +134,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Capturas originais de referência (~50 MB).
+# Servem de fonte para scripts/shots.mjs e ficam só na máquina: o Git guarda
+# cada versão para sempre, e isso incharia um repositório público de forma
+# permanente. O que vai versionado é o resultado otimizado em public/shots.
+docs/
