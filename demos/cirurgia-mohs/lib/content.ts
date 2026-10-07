@@ -179,7 +179,10 @@ function loadRawIndex(): Map<string, RawEntry> {
     const dir = path.join(CONTENT_DIR, source);
     if (!fs.existsSync(dir)) continue;
     for (const file of fs.readdirSync(dir).filter((f) => f.endsWith(".md"))) {
-      const raw = fs.readFileSync(path.join(dir, file), "utf8");
+      /* Quebras de linha normalizadas: com `text=auto` no .gitattributes, o
+         checkout no Windows grava os .md com CRLF, e o parser de frontmatter
+         e o de blocos esperam "\n". Sem isto, nenhuma página é encontrada. */
+      const raw = fs.readFileSync(path.join(dir, file), "utf8").replace(/\r\n?/g, "\n");
       const parsed = parseFrontmatter(applyPlaceholders(raw));
       const fm = parsed.data;
       if (!fm.slug) continue;

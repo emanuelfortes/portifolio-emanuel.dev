@@ -27,7 +27,7 @@ export default function Projects() {
         Veja em ação
       </h2>
       <p className="relative mt-3.5 max-w-[560px] text-[14.5px] leading-[1.75] text-txt-muted">
-        Cada tela é o sistema funcionando, não uma imagem. Clique no monitor para
+        Cada tela é o sistema funcionando, não uma imagem. Toque na tela para
         ampliar e navegar como se estivesse no site.
       </p>
 
