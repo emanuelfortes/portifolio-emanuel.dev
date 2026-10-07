@@ -15,10 +15,10 @@ export const siteUrl = (
 ).replace(/\/$/, "");
 
 /** Telefone no formato internacional, só dígitos (55 + DDD + número). */
-export const whatsappNumber = "5585992004530";
+export const whatsappNumber = "5585991053277";
 
 /** Telefone formatado para exibição. */
-export const whatsappDisplay = "(85) 99200-4530";
+export const whatsappDisplay = "(85) 99105-3277";
 
 /** Mensagem que já vem preenchida ao abrir a conversa. */
 export const whatsappMessage =
