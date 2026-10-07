@@ -1,5 +1,5 @@
 import { projects } from "@/data/projects";
-import ProjectShowcase from "./ProjectShowcase";
+import ProjectCard from "./ProjectCard";
 
 export default function Projects() {
   return (
@@ -27,13 +27,13 @@ export default function Projects() {
         Veja em ação
       </h2>
       <p className="relative mt-3.5 max-w-[560px] text-[14.5px] leading-[1.75] text-txt-muted">
-        Interfaces reais, não maquete. Passe o mouse para navegar a tela e clique
-        para abrir as decisões por trás de cada uma.
+        Cada tela é o sistema funcionando, não uma imagem. Clique no monitor para
+        ampliar e navegar como se estivesse no site.
       </p>
 
-      <div className="relative mt-10 flex flex-col gap-20">
+      <div className="relative mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {projects.map((project) => (
-          <ProjectShowcase key={project.slug} project={project} />
+          <ProjectCard key={project.slug} project={project} />
         ))}
       </div>
     </section>

@@ -7,29 +7,14 @@
  * resultado são a sua história, então passe o olho e corrija antes de publicar.
  */
 
-/** Região clicável sobreposta à captura, usada na vitrine ampliada. */
-export type Hotspot = {
-  /** Caixa em % da imagem completa, na ordem [x, y, largura, altura]. */
-  box: [number, number, number, number];
-  /** Rótulo curto, exibido ao passar o mouse. */
-  title: string;
-  /** Explicação que abre ao clicar. */
-  note: string;
-};
-
-export type Shot = {
-  /** Recorte do topo, 16:10, carregado junto com o card. */
-  thumb: string;
-  /** Página inteira, baixada só quando o visitante interage. */
-  full: string;
-  /** Dimensões da imagem completa, usadas para calcular o percurso da rolagem. */
-  width: number;
-  height: number;
-  /** Texto da barra de endereço do mockup. */
+/** Réplica navegável exibida no monitor do card. */
+export type Demo = {
+  /** Rota da réplica dentro deste site, carregada num iframe. */
+  path: string;
+  /** Texto da barra de endereço quando a tela está ampliada. */
   label: string;
   /** Cadeado na barra. Use false em sistema interno sem domínio público. */
   secure?: boolean;
-  hotspots: Hotspot[];
 };
 
 export type Project = {
@@ -46,7 +31,7 @@ export type Project = {
   liveUrl?: string;
   githubUrl?: string;
   year: string;
-  shot: Shot;
+  demo: Demo;
 };
 
 export const projects: Project[] = [
@@ -81,40 +66,10 @@ export const projects: Project[] = [
       "Filtros por dia, semana e mês com janela comparativa",
     ],
     year: "2026",
-    shot: {
-      thumb: "/shots/sigafibra-thumb.webp",
-      full: "/shots/sigafibra.webp",
-      width: 1280,
-      height: 2080,
+    demo: {
+      path: "/demo/siga-fibra",
       label: "Painel de controle · Siga Fibra",
       secure: false,
-      hotspots: [
-        {
-          box: [15, 4.6, 32, 3.8],
-          title: "O número de cima",
-          note: "129.683 acessos no período. Não é a leitura de uma plataforma, é a soma consolidada de seis origens, cada uma devolvendo os dados em um formato diferente antes de virar uma base comum.",
-        },
-        {
-          box: [15, 9.4, 83, 4],
-          title: "Sete indicadores isolados",
-          note: "Google Orgânico, Google Ads, Meta Ads, TikTok Ads, Redes Sociais, Acesso Direto e Outros, cada um no seu próprio bloco. Separar permite comparar de relance qual canal sustenta o volume.",
-        },
-        {
-          box: [15, 14.2, 83, 15.5],
-          title: "A mesma base, duas leituras",
-          note: "À esquerda a proporção, à direita o número absoluto com barra de participação. Resolve a pergunta que todo gráfico de pizza deixa no ar: esse pedaço representa quanto, afinal?",
-        },
-        {
-          box: [15, 30.8, 83, 9.4],
-          title: "Série diária com composição",
-          note: "Cada barra é um dia. O tooltip abre a quebra daquele dia por origem, então dá para entender um pico sem sair da tela nem trocar de filtro.",
-        },
-        {
-          box: [15, 79.8, 83, 18],
-          title: "Até a campanha individual",
-          note: "O último nível de profundidade. Cada campanha identificada por UTM, com origem e meio, ordenada por volume. É onde a leitura deixa de ser diagnóstico e vira decisão de verba.",
-        },
-      ],
     },
   },
 
@@ -152,35 +107,10 @@ export const projects: Project[] = [
     ],
     year: "2026",
     liveUrl: "https://lexcursos.site",
-    shot: {
-      thumb: "/shots/lexcursos-thumb.webp",
-      full: "/shots/lexcursos.webp",
-      width: 1280,
-      height: 1671,
-      label: "lexcursos.site/admin",
+    demo: {
+      path: "/demo/lexcursos",
+      label: "lexcursos.site",
       secure: true,
-      hotspots: [
-        {
-          box: [0.5, 2, 12.5, 20],
-          title: "Dez áreas, dois grupos",
-          note: "Gestão reúne o que a operação usa todo dia: usuários, produtos, cursos, pedidos, financeiro e analytics. Sistema guarda o que se mexe raramente: integrações, logs e configurações. A separação evita que a barra lateral vire uma lista sem hierarquia.",
-        },
-        {
-          box: [13.5, 6.3, 84, 3.2],
-          title: "O estado do curso no cabeçalho",
-          note: "Contagem de aulas, duração, alunos e preço ficam ao lado do nome. Publicar e despublicar é um botão, e é reversível, então a operação mexe sem precisar pedir confirmação para ninguém.",
-        },
-        {
-          box: [14.5, 11.6, 83, 6.6],
-          title: "Vinte e um módulos, controle por linha",
-          note: "Cada módulo carrega professor, estado e contagem de aulas, com subir, descer, ocultar, editar e remover na própria linha. Montar um curso deixa de exigir navegação entre telas.",
-        },
-        {
-          box: [14.5, 59.8, 83, 12.5],
-          title: "A hierarquia aberta",
-          note: "O módulo expande e revela as aulas, cada uma com seu próprio estado de publicação e a marcação de gratuita. É aqui que fica clara a decisão de projeto: visibilidade é granular até o último nível.",
-        },
-      ],
     },
   },
 
@@ -208,40 +138,10 @@ export const projects: Project[] = [
     ],
     year: "2026",
     liveUrl: "https://drericodiogenes.com.br",
-    shot: {
-      thumb: "/shots/dr-erico-thumb.webp",
-      full: "/shots/dr-erico.webp",
-      width: 1280,
-      height: 6536,
+    demo: {
+      path: "/demo/dr-erico",
       label: "drericodiogenes.com.br",
       secure: true,
-      hotspots: [
-        {
-          box: [2, 2, 96, 7.5],
-          title: "Três respostas antes da rolagem",
-          note: "Quem é, o que faz e onde atua, resolvidos na primeira dobra. Em site de saúde o visitante chega por busca e decide em segundos se está no lugar certo, então especialidade e cidade precisam estar visíveis sem rolar.",
-        },
-        {
-          box: [2, 18.5, 96, 15.5],
-          title: "Catálogo que responde à busca",
-          note: "Nove tratamentos em grade, cada card listando os procedimentos cobertos. Funciona como índice para quem navega e, ao mesmo tempo, como conteúdo para quem pesquisa o nome do procedimento no Google.",
-        },
-        {
-          box: [2, 48, 96, 7],
-          title: "Prova social com rastro",
-          note: "Depoimentos reais de pacientes, com nota e data, e link para o perfil público de origem. Avaliação verificável pesa muito mais que depoimento sem procedência, ainda mais na área de saúde.",
-        },
-        {
-          box: [2, 80.5, 96, 9.3],
-          title: "FAQ com função dupla",
-          note: "O acordeão responde a dúvida de quem já está na página e, ao mesmo tempo, cobre as perguntas que o paciente digita na busca. Uma seção servindo conversão e tráfego orgânico ao mesmo tempo.",
-        },
-        {
-          box: [2, 91.5, 96, 4.5],
-          title: "Onde a jornada fecha",
-          note: "Três unidades de atendimento, cada uma com endereço e telefone próprios. É o último obstáculo entre interesse e consulta, então fica explícito em vez de escondido atrás de um formulário.",
-        },
-      ],
     },
   },
 ];

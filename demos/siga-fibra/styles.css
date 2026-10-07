@@ -1,0 +1,80 @@
+@config "./tailwind.config.ts";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f9fafb;
+  color: #111827;
+  font-family: 'Montserrat Variable', 'Montserrat', system-ui, sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #e4f8f3;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(39,202,163,0.4);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #27CAA3;
+}
+
+/* Ponto de "atualizando", usado no lugar do estado de carregando */
+@keyframes sf-pulse {
+  0%, 100% { opacity: 1;   transform: scale(1); }
+  50%      { opacity: 0.35; transform: scale(0.7); }
+}
+
+/* Quem pediu menos animação no sistema não recebe nenhuma */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* ── Skeleton loading com shimmer ──────────────────────────────────────────
+   Placeholder no formato do conteúdo, com um brilho atravessando. Usado só
+   na troca manual (site, período, granularidade); a atualização automática
+   continua silenciosa. */
+.sf-skeleton {
+  position: relative;
+  overflow: hidden;
+  background: #e8edf0;
+  border-radius: 8px;
+}
+
+.sf-skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.65) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: sf-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes sf-shimmer {
+  100% { transform: translateX(100%); }
+}
+
+/* Sem o brilho varrendo para quem pediu menos movimento: só a forma cinza */
+@media (prefers-reduced-motion: reduce) {
+  .sf-skeleton::after { display: none; }
+}

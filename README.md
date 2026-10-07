@@ -7,30 +7,57 @@ Portfólio profissional desenvolvido com Next.js 14, TypeScript e Tailwind CSS.
 - **Next.js 14** (App Router)
 - **TypeScript**
 - **Tailwind CSS**
-- **AOS** (Animate On Scroll)
 
 ## Estrutura
 
-```
+```text
 /app
-  page.tsx                    → Home (todas as seções)
-  layout.tsx                  → Layout raiz + metadata
-  globals.css                 → Estilos globais
-  /projeto/[slug]/page.tsx    → Página dinâmica de projeto
+  /(site)                     → O portfólio (layout raiz, globals.css, home, /projeto/[slug])
+  /(demos)                    → Réplicas dos projetos, com layout raiz próprio
+    /demo/siga-fibra
+    /demo/lexcursos
+    /demo/dr-erico
 
 /components
-  AOSInit.tsx                 → Inicialização do AOS (client)
-  Navbar.tsx                  → Navegação fixa com scroll detection
-  Hero.tsx                    → Seção principal com canvas animado
-  About.tsx                   → Sobre + diferenciais
-  Skills.tsx                  → Habilidades por categoria com barras
-  Projects.tsx                → Grid de projetos
-  ProjectCard.tsx             → Card individual de projeto
-  Contact.tsx                 → Contato com copy de email
-  Footer.tsx                  → Rodapé
+  Projects.tsx                → Grade de projetos
+  ProjectCard.tsx             → Card com o monitor e o resumo do projeto
+  DemoMonitor.tsx             → Monitor com a réplica num iframe, que amplia ao clicar
+
+/demos/<projeto>              → Código de cada réplica, com tailwind.config.ts e styles.css próprios
+
+/public/demos/<projeto>       → Logos e fotos usados pelas réplicas
 
 /data
-  projects.ts                 → Dados mockados dos projetos (TypeScript)
+  projects.ts                 → Dados dos projetos
+```
+
+## Réplicas dos projetos
+
+Cada card da seção "Veja em ação" mostra um monitor com o sistema rodando.
+Não é captura de tela: é um iframe apontando para `/demo/<projeto>`, uma
+cópia navegável construída a partir do código do projeto original, com a
+camada de dados trocada por dados sintéticos (sem API, banco ou credenciais).
+Ao clicar, a tela sai do monitor e amplia sobre a página.
+
+Regras para manter as réplicas isoladas do portfólio:
+
+- As rotas ficam no grupo `app/(demos)`, que tem layout raiz próprio e não
+  importa o `globals.css` do portfólio.
+- Cada réplica tem o próprio `tailwind.config.ts`, carregado no seu
+  `styles.css` via `@config`, com `content` limitado à pasta da réplica.
+- O `globals.css` do portfólio também declara `@config` explicitamente. Sem
+  isso, com várias configs no mesmo build, ele pode ser compilado com a
+  config de uma réplica.
+- Fontes vêm de pacotes `@fontsource-variable/*`, sem depender do Google
+  Fonts no build.
+
+Enquanto a réplica carrega (é um app inteiro), o monitor mostra uma captura
+da tela inicial, `public/demos/<projeto>/poster.webp`. Depois de mudar a tela
+inicial de uma réplica, gere as capturas de novo com o servidor rodando:
+
+```bash
+npm run dev
+node scripts/posters.mjs
 ```
 
 ## Setup
@@ -74,6 +101,11 @@ Edite `/data/projects.ts`. Cada projeto tem:
   liveUrl?: string       // URL do projeto (opcional)
   githubUrl?: string     // URL do GitHub (opcional)
   year: string           // Ano do projeto
+  demo: {
+    path: string         // Rota da réplica (ex: "/demo/meu-projeto")
+    label: string        // Texto da barra de endereço na tela ampliada
+    secure?: boolean     // Cadeado na barra
+  }
 }
 ```
 

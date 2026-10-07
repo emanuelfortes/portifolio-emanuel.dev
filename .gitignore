@@ -140,3 +140,6 @@ dist
 # cada versão para sempre, e isso incharia um repositório público de forma
 # permanente. O que vai versionado é o resultado otimizado em public/shots.
 docs/
+
+# Pastas de build alternativas (NEXT_DIST_DIR)
+.next-*
